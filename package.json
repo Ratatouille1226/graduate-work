@@ -14,7 +14,13 @@
     "eslint-plugin-prettier": "^5.2.3",
     "prettier": "^3.5.3",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.54.2",
+    "react-redux": "^9.2.0",
+    "react-router-dom": "^7.4.0",
+    "redux": "^5.0.1",
+    "redux-thunk": "^3.1.0",
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

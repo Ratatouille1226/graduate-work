@@ -1,0 +1,29 @@
+{
+	"users": [
+		{
+			"id": "0",
+			"login": "Ratatouille",
+			"password": "qwerty",
+			"registed_at": "2025-03-27"
+		}
+	],
+	"incomes": [
+		{
+			"income": "0",
+			"id": "0"
+		}
+	],
+	"expenses": [
+		{
+			"expense": "0",
+			"id": "0"
+		}
+	],
+	"accounts": [
+		{
+			"account": "Т-банк",
+			"balance": "0",
+			"id": "0"
+		}
+	]
+}
