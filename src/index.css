@@ -4,6 +4,10 @@
 	box-sizing: border-box;
 }
 
+html {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
 body {
     background:
         linear-gradient(120deg, #090426 0%, #090426 3%, #10083D 37%, #140A49 60%, #1A0E5E 74%, #24147D 90%), /* Основной фон */
