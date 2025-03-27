@@ -1,0 +1,14 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+    background:
+        linear-gradient(120deg, #090426 0%, #090426 3%, #10083D 37%, #140A49 60%, #1A0E5E 74%, #24147D 90%), /* Основной фон */
+        linear-gradient(120deg, rgba(0, 0, 0, 0.7) 0%, rgba(4, 1, 48, 0.5) 49%, rgba(3, 0, 34, 0.3) 58%, rgba(230, 228, 255, 0.2) 81%, rgba(0, 0, 0, 0.7) 100%); /* Прозрачный градиент */
+    height: 100vh;
+    background-blend-mode: overlay; /* Позволяет градиентам смешиваться */
+	color: #fff;
+}

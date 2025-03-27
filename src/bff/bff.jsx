@@ -5,7 +5,7 @@ export const server = {
 	async authorize(authLogin, authPassword) {
 		//Получение пользователей по логину
 		const user = await findUser(authLogin);
-		//Возвращаем ошибки если логин не совпадает
+		//Возвращаем ошибки если логин и/или пароль не совпадают
 		if (!user) {
 			return {
 				error: 'Такой пользователь не найден',
