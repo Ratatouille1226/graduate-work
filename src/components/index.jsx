@@ -1,5 +1,4 @@
 export * from './login/Login';
-export * from './register/Register';
 export * from './incomes/Incomes';
 export * from './home/Home';
 export * from './expenses/Expenses';

@@ -15,4 +15,5 @@ body {
     height: 100vh;
     background-blend-mode: overlay; /* Позволяет градиентам смешиваться */
 	color: #fff;
+	overflow: hidden;
 }

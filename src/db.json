@@ -7,17 +7,23 @@
 			"registed_at": "2025-03-27"
 		}
 	],
-	"incomes": [
+	"incomesExpenses": [
 		{
-			"income": "0",
-			"id": "0"
-		}
-	],
-	"expenses": [
+			"sum": -200,
+			"id": "0",
+			"categories": "Магазин"
+		},
 		{
-			"expense": "0",
-			"id": "0"
+			"sum": 1000,
+			"id": "1",
+			"categories": "Магазин"
+		},
+		{
+			"sum": 1000,
+			"id": "2",
+			"categories": "Магазин"
 		}
+
 	],
 	"accounts": [
 		{

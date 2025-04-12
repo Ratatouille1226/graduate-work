@@ -1,0 +1,59 @@
+.container {
+	width: 100%;
+	height: 86vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+.block__history {
+	width: 900px;
+	height: 530px;
+	background-color: #24147D;
+	border-radius: 10px;
+}
+.header {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	padding: 0 50px;
+	color: white;
+	align-items: center;
+	height: 45px;
+	background-color: #1A0E5E;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+}
+.block {
+	width: 100%;
+	height: 100%;
+}
+.block__incomesExpenses {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	padding: 10px 50px;
+	color: #B8FFAD;
+}
+.negative {
+	color: #FF9898;
+}
+
+.header span,
+.block__incomesExpenses span {
+	display: block;
+}
+
+.header span:first-child,
+.block__incomesExpenses span:first-child {
+	text-align: left;
+}
+
+.header span:nth-child(2),
+.block__incomesExpenses span:nth-child(2) {
+	text-align: center;
+}
+
+.header span:last-child,
+.block__incomesExpenses span:last-child {
+	text-align: right;
+}
