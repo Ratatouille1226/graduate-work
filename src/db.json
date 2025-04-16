@@ -1,35 +1,41 @@
 {
-	"users": [
-		{
-			"id": "0",
-			"login": "Ratatouille",
-			"password": "qwerty",
-			"registed_at": "2025-03-27"
-		}
-	],
-	"incomesExpenses": [
-		{
-			"sum": -200,
-			"id": "0",
-			"categories": "Магазин"
-		},
-		{
-			"sum": 1000,
-			"id": "1",
-			"categories": "Магазин"
-		},
-		{
-			"sum": 1000,
-			"id": "2",
-			"categories": "Магазин"
-		}
-
-	],
-	"accounts": [
-		{
-			"account": "Т-банк",
-			"balance": "0",
-			"id": "0"
-		}
-	]
+  "users": [
+    {
+      "id": "0",
+      "login": "Ratatouille",
+      "password": "qwerty",
+      "registed_at": "2025-03-27"
+    }
+  ],
+  "incomesExpenses": [
+    {
+      "sum": -200,
+      "id": "0",
+      "categories": "Магазин"
+    },
+    {
+      "sum": 1000,
+      "id": "1",
+      "categories": "Магазин"
+    },
+    {
+      "sum": 1000,
+      "id": "2",
+      "categories": "Магазин"
+    }
+  ],
+  "accounts": [
+    {
+      "id": "4860",
+      "account": "ВТБ",
+      "balance": "43590",
+      "cashback": "457"
+    },
+    {
+      "id": "83c1",
+      "account": "Сбербанк",
+      "balance": "32513",
+      "cashback": "231"
+    }
+  ]
 }

@@ -1,10 +1,9 @@
 import styles from './header.module.css';
 import logo from '../../assets/logo.png';
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 export const Header = () => {
-	const [isButtonActive, setIsButtonActive] = useState(1); //Если равен 1 то класс активности первой кнопке, если 2 то второй
+	const location = useLocation(); //для того чтобы отображать класс активности только когда мы находимся на этой странице
 
 	return (
 		<header className={styles['header']}>
@@ -12,9 +11,8 @@ export const Header = () => {
 				<img src={logo} alt="logo" />
 				<Link
 					to="/"
-					onClick={() => setIsButtonActive(1)}
 					className={
-						isButtonActive === 1
+						location.pathname === '/'
 							? `${styles['button__navigate']} ${styles['active']}`
 							: `${styles['button__navigate']}`
 					}
@@ -23,9 +21,8 @@ export const Header = () => {
 				</Link>
 				<Link
 					to="/history"
-					onClick={() => setIsButtonActive(2)}
 					className={
-						isButtonActive === 2
+						location.pathname === '/history'
 							? `${styles['button__navigate']} ${styles['active']}`
 							: `${styles['button__navigate']}`
 					}

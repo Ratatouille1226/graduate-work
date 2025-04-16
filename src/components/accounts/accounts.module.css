@@ -1,0 +1,100 @@
+.container {
+	width: 100%;
+	height: 86vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	gap: 50px;
+}
+.block {
+	width: 1200px;
+	height: 350px;
+	/* border: 1px solid red; */
+	display: flex;
+	gap: 25px;
+}
+.block__accounts {
+	height: 300px;
+	width: 200px;
+	background-color: #24147D;
+	border-radius: 8px;
+	border: 1px solid rgb(78, 78, 78);
+	box-shadow: 5px 5px 15px rgb(8, 8, 8);
+}
+.accounts {
+	display: flex;
+	flex-direction: column;
+	padding: 10px;
+	font-size: 17px;
+}
+.accounts h2{
+	text-align: center;
+	margin-bottom: 20px;
+}
+.accounts span {
+	margin-bottom: 15px;
+}
+/* .accounts span i{
+	font-size: 85px;
+} */
+
+.edit {
+	font-size: 18px;
+	cursor: pointer;
+	margin-left: 5px;
+	transition: .5s ease all;
+}
+.edit:hover {
+	color: #F99100;
+	transition: .5s ease all;
+}
+.pig {
+	font-size: 70px;
+	margin: 20px 45px;
+}
+
+.delete {
+	cursor: pointer;
+	height: 30px;
+	border-radius: 5px;
+	border: none;
+	background-color: rgba(221, 52, 52, 0.744);
+	transition: .5s ease all;
+	color: #fff;
+}
+.delete:hover {
+	background-color: rgb(221, 52, 52);
+	transition: .5s ease all;
+}
+
+.add__new-block {
+	height: 300px;
+	width: 200px;
+	border-radius: 8px;
+	border: 2px dashed #F99100;
+	box-shadow: 5px 5px 15px rgb(8, 8, 8);
+	cursor: pointer;
+	text-align: center;
+	font-size: 25px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 15px;
+	gap: 50px;
+}
+.add__new-block span i{
+	font-size: 50px;
+	transition: .5s ease all;
+}
+.add__new-block:hover span i{
+	font-size: 50px;
+	transition: .5s ease all;
+	color:#F99100;
+}
+.add__new-block input {
+	height: 35px;
+	border-radius: 5px;
+	border: 1px solid gray;
+	background-color: rgb(219, 219, 219);
+}
