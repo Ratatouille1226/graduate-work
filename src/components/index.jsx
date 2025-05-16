@@ -5,3 +5,4 @@ export * from './analytics/Analytics';
 export * from './history/History';
 export * from './header/Header';
 export * from './transactions/Transactions';
+export * from './account-page/AccountPage';

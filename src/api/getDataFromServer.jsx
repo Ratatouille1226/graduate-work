@@ -60,6 +60,33 @@ export const GetDataFromServer = (dataName) => {
 			console.error('Ошибка комментария', error);
 		}
 	};
+	//Изменение суммы на счету
+	const editSumAccounts = async (id, newSum) => {
+		try {
+			const response = await fetch(`${HTTP_LINK}accounts/${id}`, {
+				method: 'PATCH',
+				headers: {
+					'Content-type': 'application/json',
+				},
+				body: JSON.stringify({ balance: newSum }),
+			});
 
-	return { getExpensesIncome, addNewAccounts, deleteAccounts, editAddComments };
+			return response.json();
+		} catch (error) {
+			console.error('Ошибка в изменении счёта', error);
+		}
+	};
+	//Получение данных счёта для страницы счёта
+	const getDataAccount = async (id) => {
+		try {
+			const response = await fetch(`${HTTP_LINK}accounts/${id}`);
+			if (!response.ok) throw new Error('Ошибка при получении доходов/расходов');
+			return await response.json();
+		} catch (error) {
+			console.error('Ошибка в getExpensesIncome:', error);
+			return null;
+		}
+	};
+
+	return { getExpensesIncome, addNewAccounts, deleteAccounts, editAddComments, editSumAccounts, getDataAccount };
 };

@@ -7,6 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 import styles from './accounts.module.css';
+import { Link } from 'react-router-dom';
 
 const validationSchema = yup.object().shape({
 	accountName: yup
@@ -43,11 +44,10 @@ export const Accounts = () => {
 	const [isNewAddAccounts, setIsNewAddAccounts] = useState(true); // Условный рендеринг для формы добавления
 	const [addLoading, setAddLoading] = useState(false); // Локальный лоадер для формы
 	const [refreshAccounts, setRefreshAccounts] = useState(false); // Триггер для обновления счетов после добавления
-
+	const data = GetDataFromServer('accounts');
 	// Получение счетов
 	useEffect(() => {
 		const fetchData = async () => {
-			const data = GetDataFromServer('accounts');
 			const dataAccounts = await data.getExpensesIncome();
 			setAccounts(dataAccounts);
 			setLoading(false);
@@ -59,7 +59,6 @@ export const Accounts = () => {
 	const onAddAccounts = async (formData) => {
 		setAddLoading(true); // Показываем лоадер
 
-		const data = GetDataFromServer('accounts');
 		await data.addNewAccounts({
 			account: formData.accountName, // 💡 берём имя из формы
 			balance: formData.balance,
@@ -82,8 +81,8 @@ export const Accounts = () => {
 	};
 
 	//Изменение суммы на счёте
-	const onEditSum = (accountsSum) => {
-		console.log(accountsSum);
+	const onEditSum = (accountsId) => {
+		console.log(accountsId);
 	};
 
 	//Ошибки валидации
@@ -105,10 +104,12 @@ export const Accounts = () => {
 									<h2>{item.account}</h2>
 									<span>
 										{`На счету: ${item.balance}р`}{' '}
-										<i
-											onClick={() => onEditSum(item.id)}
-											className={`fa-solid fa-pen-to-square ${styles['edit']}`}
-										></i>
+										<Link to={`/accountPage/${item.id}`}>
+											<i
+												onClick={() => onEditSum(item.id)}
+												className={`fa-solid fa-pen-to-square ${styles['edit']}`}
+											></i>
+										</Link>
 									</span>
 									<span>{`Кэшбэк: ${item.cashback}р`}</span>
 									<span>
