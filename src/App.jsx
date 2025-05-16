@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import { Incomes, History, Analytics, Expenses, Accounts, Home, Header } from './components/index';
+import { History, Analytics, Accounts, Home, Header, Transactions } from './components/index';
 import { Authorization } from './pages/index';
 
 export const App = () => {
@@ -10,8 +10,8 @@ export const App = () => {
 				<Route path="/authorization" element={<Authorization />} />
 				<Route path="/" element={<Home />} />
 				<Route path="/history" element={<History />} />
-				<Route path="/incomes" element={<Incomes />} />
-				<Route path="/expenses" element={<Expenses />} />
+				<Route path="/incomes" element={<Transactions type="incomes" />} />
+				<Route path="/expenses" element={<Transactions type="expenses" />} />
 				<Route path="/accounts" element={<Accounts />} />
 				<Route path="/analytics" element={<Analytics />} />
 				<Route path="*" element={<div>Ошибка</div>} />

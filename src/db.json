@@ -11,31 +11,58 @@
     {
       "sum": -200,
       "id": "0",
-      "categories": "Магазин"
+      "categories": "Магазин",
+      "comment": "Купил мороженное",
+      "date": "17.04.2025"
     },
     {
-      "sum": 1000,
+      "sum": 11000,
       "id": "1",
-      "categories": "Магазин"
+      "categories": "Зачисление зарплаты",
+      "comment": "Зарплата за апрель",
+      "date": "17.04.2025"
     },
     {
-      "sum": 1000,
+      "sum": 15000,
       "id": "2",
-      "categories": "Магазин"
+      "categories": "Зачисление зарплаты",
+      "comment": "рghgh",
+      "date": "17.04.2025"
+    },
+    {
+      "sum": -2700,
+      "id": "3",
+      "categories": "Спорт",
+      "comment": " спортзал",
+      "date": "18.04.2025"
+    },
+    {
+      "id": "9719",
+      "categories": "Фриланс",
+      "sum": 5000,
+      "date": "18.04.2025",
+      "comment": "Сделал заказ на фрилансе"
+    },
+    {
+      "id": "6532",
+      "categories": "Фастфуд",
+      "sum": -290,
+      "date": "18.04.2025",
+      "comment": "h"
     }
   ],
   "accounts": [
-    {
-      "id": "4860",
-      "account": "ВТБ",
-      "balance": "43590",
-      "cashback": "457"
-    },
     {
       "id": "83c1",
       "account": "Сбербанк",
       "balance": "32513",
       "cashback": "231"
+    },
+    {
+      "id": "ea6a",
+      "account": "Т-Банк",
+      "balance": "123123",
+      "cashback": "323"
     }
   ]
 }

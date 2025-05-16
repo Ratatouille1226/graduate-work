@@ -10,7 +10,6 @@
 .block {
 	width: 1200px;
 	height: 350px;
-	/* border: 1px solid red; */
 	display: flex;
 	gap: 25px;
 }
@@ -35,9 +34,6 @@
 .accounts span {
 	margin-bottom: 15px;
 }
-/* .accounts span i{
-	font-size: 85px;
-} */
 
 .edit {
 	font-size: 18px;
@@ -79,13 +75,12 @@
 	font-size: 25px;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
 	padding: 15px;
-	gap: 50px;
 }
 .add__new-block span i{
 	font-size: 50px;
 	transition: .5s ease all;
+	margin-top: 60px;
 }
 .add__new-block:hover span i{
 	font-size: 50px;
@@ -97,4 +92,23 @@
 	border-radius: 5px;
 	border: 1px solid gray;
 	background-color: rgb(219, 219, 219);
+	margin:0px 0px 40px 0px;
+}
+
+form button {
+	width: 165px;
+	height: 30px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	margin-top: 12px;
+	font-size: 15px;
+}
+
+.account__error {
+	color: red;
+	font-size: 12px;
+	margin-top: -40px;
+	position: absolute;
+	width: 170px;
 }

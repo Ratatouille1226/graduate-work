@@ -1,0 +1,108 @@
+.container {
+	width: 100%;
+	height: 86vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.block {
+	height: 500px;
+	width: 800px;
+	background-color: #24147D;
+	border-radius: 10px;
+}
+.header {
+	display: grid;
+	grid-template-columns: 5fr 5fr 1fr;
+	padding: 0 50px;
+	color: white;
+	align-items: center;
+	height: 45px;
+	background-color: #1A0E5E;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+}
+.content {
+	width: 100%;
+	height: 100%;
+}
+.content__item {
+	width: 100%;
+	height: 89%;
+	display: flex;
+	flex-direction: column;
+}
+
+.expenses {
+	width: 100%;
+	border-bottom: 1px solid #fff;
+}
+.expenses__data-red{
+	display: grid;
+	grid-template-columns: 5fr 5fr 1fr;
+	padding: 10px 50px;
+	color: #ffadad;
+}
+.expenses__data-green{
+	display: grid;
+	grid-template-columns: 5fr 5fr 1fr;
+	padding: 10px 50px;
+	color: #B8FFAD;
+}
+.comment {
+	margin-bottom: 5px;
+	padding-left: 50px;
+	font-size: 14px;
+	color: gray;
+}
+.button__container {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.button__container .add {
+	height: 30px;
+	background-color: #FC9300;
+	cursor: pointer;
+	border-radius: 5px;
+	border: none;
+	padding: 0px 10px;
+	color: #ececec;
+	margin-top: -140px;
+}
+.button__container form {
+	margin-top: -140px;
+	display: flex;
+	gap: 30px;
+}
+.button__container form button{
+	margin-top: -10px;
+	background-color:#FC9300;
+	color: #fff;
+}
+.button__container form input{
+	height: 30px;
+	border-radius: 5px;
+	border: none;
+	font-size: 12px;
+	width: 170px;
+	margin-top: -10px;
+}
+.errorCat {
+	color: red;
+	font-size: 10px;
+	position: absolute;
+	margin-top: 23px;
+}
+
+.errorSum{
+	color: red;
+	font-size: 10px;
+	position: absolute;
+	margin: 23px 0px 0px 200px;
+}
+.comment_name {
+	cursor: pointer;
+}
