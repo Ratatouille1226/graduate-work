@@ -8,6 +8,23 @@
 	gap: 50px;
 }
 
+.wrapper form {
+	display: flex;
+	flex-direction: column;
+	gap: 30px;
+}
+
+.wrapper form span {
+	text-align: center;
+	color: rgb(255, 95, 95);
+	margin-top: -20px;
+}
+
+.wrapper form a {
+	color: #fff;
+	margin-left: 100px;
+}
+
 .wrapper input {
 	width: 250px;
 	height: 30px;

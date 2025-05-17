@@ -80,11 +80,6 @@ export const Accounts = () => {
 		}
 	};
 
-	//Изменение суммы на счёте
-	const onEditSum = (accountsId) => {
-		console.log(accountsId);
-	};
-
 	//Ошибки валидации
 	const formErrorAccount = errors?.accountName?.message;
 	const formErrorBalance = errors?.balance?.message;
@@ -105,10 +100,7 @@ export const Accounts = () => {
 									<span>
 										{`На счету: ${item.balance}р`}{' '}
 										<Link to={`/accountPage/${item.id}`}>
-											<i
-												onClick={() => onEditSum(item.id)}
-												className={`fa-solid fa-pen-to-square ${styles['edit']}`}
-											></i>
+											<i className={`fa-solid fa-pen-to-square ${styles['edit']}`}></i>
 										</Link>
 									</span>
 									<span>{`Кэшбэк: ${item.cashback}р`}</span>

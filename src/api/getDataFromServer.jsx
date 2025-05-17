@@ -60,15 +60,15 @@ export const GetDataFromServer = (dataName) => {
 			console.error('Ошибка комментария', error);
 		}
 	};
-	//Изменение суммы на счету
-	const editSumAccounts = async (id, newSum) => {
+	//Изменение баланса на счетах
+	const editSumAccounts = async (id, newSum, newCashback) => {
 		try {
 			const response = await fetch(`${HTTP_LINK}accounts/${id}`, {
 				method: 'PATCH',
 				headers: {
 					'Content-type': 'application/json',
 				},
-				body: JSON.stringify({ balance: newSum }),
+				body: JSON.stringify({ balance: newSum, cashback: newCashback }),
 			});
 
 			return response.json();
