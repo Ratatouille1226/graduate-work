@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { GetDataFromServer } from '../../api/getDataFromServer';
 import { Loader } from '../loader/Loader';
+import { SliceSentence } from '../../utils';
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -96,14 +97,28 @@ export const Accounts = () => {
 						{accounts.map((item) => (
 							<div key={item.id} className={styles['block__accounts']}>
 								<div className={styles['accounts']}>
-									<h2>{item.account}</h2>
+									<h2>
+										<SliceSentence text={item.account} maxLength={10} />
+									</h2>
 									<span>
-										{`На счету: ${item.balance}р`}{' '}
+										<SliceSentence
+											text={item.balance}
+											maxLength={9}
+											prefix={'Счет:'}
+											suffix={'р'}
+										/>
 										<Link to={`/accountPage/${item.id}`}>
 											<i className={`fa-solid fa-pen-to-square ${styles['edit']}`}></i>
 										</Link>
 									</span>
-									<span>{`Кэшбэк: ${item.cashback}р`}</span>
+									<span>
+										<SliceSentence
+											text={item.cashback}
+											maxLength={9}
+											prefix={'Кэшбек:'}
+											suffix={'р'}
+										/>
+									</span>
 									<span>
 										<i className={`fa-solid fa-piggy-bank ${styles['pig']}`}></i>
 									</span>
