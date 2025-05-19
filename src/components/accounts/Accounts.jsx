@@ -74,7 +74,7 @@ export const Accounts = () => {
 	//Удаление счёта
 	const onDeleteAccount = async (id) => {
 		try {
-			await GetDataFromServer().deleteAccounts(id);
+			await GetDataFromServer().deleteAccounts(id, 'accounts');
 			setRefreshAccounts((prev) => !prev);
 		} catch (error) {
 			console.error('Ошибка удаления задачи:', error);

@@ -38,15 +38,28 @@
 	width: 100%;
 	border-bottom: 1px solid #fff;
 }
+.expenses i {
+	margin: -3px 0px 0px 60px;
+	position: absolute;
+	color: #fff;
+	font-size: 22px;
+	transition: .6s ease all;
+	cursor: pointer;
+}
+.expenses i:hover {
+	color: red;
+	transition: .6s ease all;
+	cursor: pointer;
+}
 .expenses__data-red{
 	display: grid;
-	grid-template-columns: 5fr 5fr 1fr;
+	grid-template-columns: 5fr 5fr 1fr 1fr;
 	padding: 10px 50px;
 	color: #ffadad;
 }
 .expenses__data-green{
 	display: grid;
-	grid-template-columns: 5fr 5fr 1fr;
+	grid-template-columns: 5fr 5fr 1fr 1fr;
 	padding: 10px 50px;
 	color: #B8FFAD;
 }
@@ -56,6 +69,23 @@
 	font-size: 14px;
 	color: gray;
 }
+.comment input {
+	border-radius: 2px;
+	height: 20px;
+	font-size: 12px;
+	padding-left: 5px;
+	border: none;
+}
+
+.comment button {
+	width: 80px;
+	height: 20px;
+	margin-left: 20px;
+	border-radius: 2px;
+	border: none;
+	cursor: pointer;
+}
+
 .button__container {
 	width: 100%;
 	display: flex;

@@ -31,9 +31,9 @@ export const GetDataFromServer = (dataName) => {
 		}
 	};
 	//Удаление доходов/расходов/счетов
-	const deleteAccounts = async (id) => {
+	const deleteAccounts = async (id, type) => {
 		try {
-			const response = await fetch(`${HTTP_LINK}accounts/${id}`, {
+			const response = await fetch(`${HTTP_LINK}${type}/${id}`, {
 				method: 'DELETE',
 			});
 

@@ -4,6 +4,7 @@ import * as yup from 'yup';
 import styles from './transactions.module.css';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { SliceSentence } from '../../utils';
 
 const validateSchema = yup.object().shape({
 	categories: yup
@@ -69,6 +70,22 @@ export const Transactions = ({ type }) => {
 		setEditingCommentId(null);
 		setRefreshExpenses((prev) => !prev);
 	};
+	//Удаление расходов/доходов
+	const onRemoveIncomeExpenses = async (id) => {
+		await data.deleteAccounts(id, 'incomesExpenses');
+		setRefreshExpenses((prev) => !prev);
+	};
+	//Удаление комментария
+	const onRemoveComment = async (id) => {
+		await data.editAddComments(id, '');
+		setEditingCommentId(null);
+		setNewComment((prev) => {
+			const updated = { ...prev };
+			delete updated[id];
+			return updated;
+		});
+		setRefreshExpenses((prev) => !prev);
+	};
 
 	const errorCategories = errors?.categories?.message;
 	const errorSum = errors?.sum?.message;
@@ -89,6 +106,9 @@ export const Transactions = ({ type }) => {
 									<span>{dataItem.categories}</span>
 									<span>{dataItem.sum}</span>
 									<span>{dataItem.date}</span>
+									<span onClick={() => onRemoveIncomeExpenses(dataItem.id)}>
+										<i className="fa-solid fa-trash"></i>
+									</span>
 								</div>
 								<div className={styles['comment']}>
 									{editingCommentId === dataItem.id ? (
@@ -103,6 +123,7 @@ export const Transactions = ({ type }) => {
 												}
 											/>
 											<button onClick={() => onNewComment(dataItem.id)}>Сохранить</button>
+											<button onClick={() => onRemoveComment(dataItem.id)}>Удалить</button>
 										</>
 									) : dataItem.comment ? (
 										<span
@@ -115,7 +136,7 @@ export const Transactions = ({ type }) => {
 												}));
 											}}
 										>
-											{dataItem.comment}
+											<SliceSentence text={dataItem.comment} maxLength={175} />
 										</span>
 									) : (
 										<>
