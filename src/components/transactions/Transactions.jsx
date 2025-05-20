@@ -5,6 +5,8 @@ import styles from './transactions.module.css';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { SliceSentence } from '../../utils';
+import { LIMIT_INCOME_EXPENSES } from '../../constants/limitPaginationExpensesIncome';
+import { Pagination } from '../pagination/Pagination';
 
 const validateSchema = yup.object().shape({
 	categories: yup
@@ -20,8 +22,14 @@ const validateSchema = yup.object().shape({
 });
 
 export const Transactions = ({ type }) => {
+	const [page, setPage] = useState(1);
 	//Проверяем что у нас на странице, расход или доход, получается что можно использовать этот компонент 2 раза
 	const isType = type === 'expenses';
+	//А тут фильтрум данные для пагинации, чтобы показывать по 5 элементов, без фильтра на стороне сервера данные отрисовываются неправильно
+	//Показывает например: 3 дохода и 2 расхода
+	const query = isType
+		? `?sum_lt=0&_page=${page}&_limit=${LIMIT_INCOME_EXPENSES}`
+		: `?sum_gte=0&_page=${page}&_limit=${LIMIT_INCOME_EXPENSES}`;
 
 	const {
 		register,
@@ -39,15 +47,18 @@ export const Transactions = ({ type }) => {
 	const [refreshExpenses, setRefreshExpenses] = useState(false);
 	const [newComment, setNewComment] = useState({});
 	const [editingCommentId, setEditingCommentId] = useState(null);
+
+	const [totalPages, setTotalPages] = useState(1); //Сколько всего страниц пагинации
 	const data = GetDataFromServer('incomesExpenses');
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const dataIncomesExpenses = await data.getExpensesIncome();
-			setIncomesExpenses(dataIncomesExpenses.filter((item) => (isType ? item.sum < 0 : item.sum > 0)));
+			const { data: dataIncomesExpenses, totalCount } = await data.getDataForAccountPagination(query);
+			setTotalPages(Math.ceil(totalCount / LIMIT_INCOME_EXPENSES)); //Проверяем сколько будет страниц (округление вверх)
+			setIncomesExpenses(dataIncomesExpenses);
 		};
 		fetchData();
-	}, [refreshExpenses, isType]);
+	}, [refreshExpenses, isType, page]);
 
 	// Добавление дохода/расхода
 	const onAddExpenses = (formData) => {
@@ -158,7 +169,9 @@ export const Transactions = ({ type }) => {
 						))}
 					</div>
 				</div>
-
+				<div>
+					<Pagination setPage={setPage} page={page} totalPages={totalPages} />
+				</div>
 				<div className={styles['button__container']}>
 					<form onClick={(e) => e.stopPropagation()} onSubmit={handleSubmit(onAddExpenses)}>
 						<input {...register('categories')} type="text" placeholder="Название категории" />

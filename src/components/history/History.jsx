@@ -3,18 +3,23 @@ import { useState, useEffect } from 'react';
 import { Loader } from '../loader/Loader';
 import styles from './history.module.css';
 import { Pagination } from '../pagination/Pagination';
+import { LIMIT_ACCOUNTS } from '../../constants';
 
 export const History = () => {
 	const [expensesIncome, setExpensesIncome] = useState([]);
 	const [page, setPage] = useState(1); //Страница пагинации
 	const [loading, setLoading] = useState(true);
+	const [totalPages, setTotalPages] = useState(1); //Сколько всего страниц пагинации
 	//Получение расходов и доходов
 	useEffect(() => {
 		const fetchData = async () => {
 			setLoading(true);
 			const data = GetDataFromServer('incomesExpenses'); //Передаю аргумент чтобы использовать запрос для любых компонентов
 
-			const incomeExpensesData = await data.getExpensesIncome(`_page=${page}&_limit=4`);
+			const { data: incomeExpensesData, totalCount } = await data.getDataForAccountPagination(
+				`?_page=${page}&_limit=${LIMIT_ACCOUNTS}`,
+			);
+			setTotalPages(Math.ceil(totalCount / LIMIT_ACCOUNTS)); //Проверяем сколько будет страниц (округление вверх)
 			setExpensesIncome(incomeExpensesData);
 			setLoading(false);
 		};
@@ -47,7 +52,7 @@ export const History = () => {
 						))
 					)}
 				</div>
-				<Pagination setPage={setPage} page={page} />
+				<Pagination setPage={setPage} page={page} totalPages={totalPages} />
 			</div>
 		</div>
 	);

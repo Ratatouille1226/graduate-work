@@ -2,11 +2,29 @@ import { HTTP_LINK } from '../constants';
 
 export const GetDataFromServer = (dataName) => {
 	//Получение всех данных
-	const getExpensesIncome = async (pagination = '') => {
+	const getExpensesIncome = async () => {
 		try {
-			const response = await fetch(`${HTTP_LINK}${dataName}?${pagination}`);
+			const response = await fetch(`${HTTP_LINK}${dataName}`);
+
 			if (!response.ok) throw new Error('Ошибка при получении доходов/расходов');
+
 			return await response.json();
+		} catch (error) {
+			console.error('Ошибка в getExpensesIncome:', error);
+			return null;
+		}
+	};
+	//Получение данных расходов доходов для пагинации
+	const getDataForAccountPagination = async (pagination = '') => {
+		try {
+			const response = await fetch(`${HTTP_LINK}${dataName}${pagination}`);
+
+			if (!response.ok) throw new Error('Ошибка при получении доходов/расходов');
+
+			const totalCount = +response.headers.get('X-Total-Count'); // Получаем общее количество возможных страниц пагинации
+			const data = await response.json();
+
+			return { data, totalCount };
 		} catch (error) {
 			console.error('Ошибка в getExpensesIncome:', error);
 			return null;
@@ -88,5 +106,13 @@ export const GetDataFromServer = (dataName) => {
 		}
 	};
 
-	return { getExpensesIncome, addNewAccounts, deleteAccounts, editAddComments, editSumAccounts, getDataAccount };
+	return {
+		getExpensesIncome,
+		addNewAccounts,
+		deleteAccounts,
+		editAddComments,
+		editSumAccounts,
+		getDataAccount,
+		getDataForAccountPagination,
+	};
 };
