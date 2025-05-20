@@ -1,0 +1,14 @@
+.pagination {
+	display: flex;
+	gap: 10px;
+	position: absolute;
+	margin: -80px 0px 0px 40px;
+}
+
+.pagination button {
+	width: 100px;
+	height: 20px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}

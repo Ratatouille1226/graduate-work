@@ -10,24 +10,45 @@
   "incomesExpenses": [
     {
       "sum": -200,
-      "id": "0",
+      "id": 1,
       "categories": "Магазин",
       "comment": "Купил мороженное",
       "date": "17.04.2025"
     },
     {
-      "sum": -2700,
-      "id": "3",
-      "categories": "Спорт",
-      "comment": " спортзал",
-      "date": "18.04.2025"
+      "id": 2,
+      "categories": "апапапапапапап",
+      "sum": 123,
+      "date": "20.05.2025",
+      "comment": ""
     },
     {
-      "id": "2d80",
-      "categories": "авававава",
-      "sum": 123123,
-      "date": "19.05.2025",
-      "comment": "123123"
+      "id": 3,
+      "categories": "аааа",
+      "sum": 123,
+      "date": "20.05.2025",
+      "comment": ""
+    },
+    {
+      "id": 4,
+      "categories": "ппппп",
+      "sum": 123,
+      "date": "20.05.2025",
+      "comment": ""
+    },
+    {
+      "id": 5,
+      "categories": "аааааа",
+      "sum": -123,
+      "date": "20.05.2025",
+      "comment": ""
+    },
+    {
+      "id": 6,
+      "categories": "папаппапа",
+      "sum": -44324,
+      "date": "20.05.2025",
+      "comment": ""
     }
   ],
   "accounts": [

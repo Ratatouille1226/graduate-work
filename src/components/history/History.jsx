@@ -2,21 +2,24 @@ import { GetDataFromServer } from '../../api/getDataFromServer';
 import { useState, useEffect } from 'react';
 import { Loader } from '../loader/Loader';
 import styles from './history.module.css';
+import { Pagination } from '../pagination/Pagination';
 
 export const History = () => {
 	const [expensesIncome, setExpensesIncome] = useState([]);
+	const [page, setPage] = useState(1); //Страница пагинации
 	const [loading, setLoading] = useState(true);
 	//Получение расходов и доходов
 	useEffect(() => {
 		const fetchData = async () => {
+			setLoading(true);
 			const data = GetDataFromServer('incomesExpenses'); //Передаю аргумент чтобы использовать запрос для любых компонентов
 
-			const incomeExpensesData = await data.getExpensesIncome();
+			const incomeExpensesData = await data.getExpensesIncome(`_page=${page}&_limit=4`);
 			setExpensesIncome(incomeExpensesData);
 			setLoading(false);
 		};
 		fetchData();
-	}, []);
+	}, [page]);
 
 	return (
 		<div className={styles['container']}>
@@ -44,6 +47,7 @@ export const History = () => {
 						))
 					)}
 				</div>
+				<Pagination setPage={setPage} page={page} />
 			</div>
 		</div>
 	);

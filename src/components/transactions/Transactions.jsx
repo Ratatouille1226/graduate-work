@@ -136,7 +136,7 @@ export const Transactions = ({ type }) => {
 												}));
 											}}
 										>
-											<SliceSentence text={dataItem.comment} maxLength={175} />
+											<SliceSentence text={dataItem.comment} maxLength={84} suffix="." />
 										</span>
 									) : (
 										<>

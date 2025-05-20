@@ -2,9 +2,9 @@ import { HTTP_LINK } from '../constants';
 
 export const GetDataFromServer = (dataName) => {
 	//Получение всех данных
-	const getExpensesIncome = async () => {
+	const getExpensesIncome = async (pagination = '') => {
 		try {
-			const response = await fetch(`${HTTP_LINK}${dataName}`);
+			const response = await fetch(`${HTTP_LINK}${dataName}?${pagination}`);
 			if (!response.ok) throw new Error('Ошибка при получении доходов/расходов');
 			return await response.json();
 		} catch (error) {

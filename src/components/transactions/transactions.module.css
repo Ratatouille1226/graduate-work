@@ -39,7 +39,7 @@
 	border-bottom: 1px solid #fff;
 }
 .expenses i {
-	margin: -3px 0px 0px 60px;
+	margin: -3px 0px 0px 40px;
 	position: absolute;
 	color: #fff;
 	font-size: 22px;
@@ -53,13 +53,13 @@
 }
 .expenses__data-red{
 	display: grid;
-	grid-template-columns: 5fr 5fr 1fr 1fr;
+	grid-template-columns: 17.5fr 15fr 1fr 1fr;
 	padding: 10px 50px;
 	color: #ffadad;
 }
 .expenses__data-green{
 	display: grid;
-	grid-template-columns: 5fr 5fr 1fr 1fr;
+	grid-template-columns: 17.5fr 15fr 1fr 1fr;
 	padding: 10px 50px;
 	color: #B8FFAD;
 }
