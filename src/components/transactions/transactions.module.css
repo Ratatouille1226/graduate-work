@@ -136,3 +136,13 @@
 .comment_name {
 	cursor: pointer;
 }
+
+.pagination {
+	position: absolute;
+	margin: -60px 0px 0px -22px;
+}
+
+.loader {
+	margin: 150px 0px 0px 335px;
+	position: absolute;
+}

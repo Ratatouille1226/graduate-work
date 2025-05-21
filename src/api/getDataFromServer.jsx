@@ -1,5 +1,7 @@
 import { HTTP_LINK } from '../constants';
 
+//Пока что все запросы похожи друг на друга и в одном файле, рефакторинг буду делать позже
+
 export const GetDataFromServer = (dataName) => {
 	//Получение всех данных
 	const getExpensesIncome = async () => {

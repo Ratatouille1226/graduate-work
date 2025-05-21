@@ -13,7 +13,6 @@ export const History = () => {
 	//Получение расходов и доходов
 	useEffect(() => {
 		const fetchData = async () => {
-			setLoading(true);
 			const data = GetDataFromServer('incomesExpenses'); //Передаю аргумент чтобы использовать запрос для любых компонентов
 
 			const { data: incomeExpensesData, totalCount } = await data.getDataForAccountPagination(

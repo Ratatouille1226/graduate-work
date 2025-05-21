@@ -7,6 +7,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { SliceSentence } from '../../utils';
 import { LIMIT_INCOME_EXPENSES } from '../../constants/limitPaginationExpensesIncome';
 import { Pagination } from '../pagination/Pagination';
+import { Loader } from '../loader/Loader';
+import { LoaderTrash } from './components/loader-trash/LoaderTrash';
 
 const validateSchema = yup.object().shape({
 	categories: yup
@@ -47,6 +49,8 @@ export const Transactions = ({ type }) => {
 	const [refreshExpenses, setRefreshExpenses] = useState(false);
 	const [newComment, setNewComment] = useState({});
 	const [editingCommentId, setEditingCommentId] = useState(null);
+	const [loading, setLoading] = useState(true);
+	const [loadingTrash, setLoadingTrash] = useState(null);
 
 	const [totalPages, setTotalPages] = useState(1); //Сколько всего страниц пагинации
 	const data = GetDataFromServer('incomesExpenses');
@@ -56,6 +60,7 @@ export const Transactions = ({ type }) => {
 			const { data: dataIncomesExpenses, totalCount } = await data.getDataForAccountPagination(query);
 			setTotalPages(Math.ceil(totalCount / LIMIT_INCOME_EXPENSES)); //Проверяем сколько будет страниц (округление вверх)
 			setIncomesExpenses(dataIncomesExpenses);
+			setLoading(false);
 		};
 		fetchData();
 	}, [refreshExpenses, isType, page]);
@@ -83,8 +88,10 @@ export const Transactions = ({ type }) => {
 	};
 	//Удаление расходов/доходов
 	const onRemoveIncomeExpenses = async (id) => {
+		setLoadingTrash(id);
 		await data.deleteAccounts(id, 'incomesExpenses');
 		setRefreshExpenses((prev) => !prev);
+		setLoadingTrash(null);
 	};
 	//Удаление комментария
 	const onRemoveComment = async (id) => {
@@ -111,65 +118,79 @@ export const Transactions = ({ type }) => {
 				</div>
 				<div className={styles['content']}>
 					<div className={styles['content__item']}>
-						{incomesExpenses.map((dataItem) => (
-							<div key={dataItem.id} className={styles['expenses']}>
-								<div className={isType ? styles['expenses__data-red'] : styles['expenses__data-green']}>
-									<span>{dataItem.categories}</span>
-									<span>{dataItem.sum}</span>
-									<span>{dataItem.date}</span>
-									<span onClick={() => onRemoveIncomeExpenses(dataItem.id)}>
-										<i className="fa-solid fa-trash"></i>
-									</span>
-								</div>
-								<div className={styles['comment']}>
-									{editingCommentId === dataItem.id ? (
-										<>
-											<input
-												value={newComment[dataItem.id] || ''}
-												onChange={(e) =>
-													setNewComment((prev) => ({
-														...prev,
-														[dataItem.id]: e.target.value,
-													}))
-												}
-											/>
-											<button onClick={() => onNewComment(dataItem.id)}>Сохранить</button>
-											<button onClick={() => onRemoveComment(dataItem.id)}>Удалить</button>
-										</>
-									) : dataItem.comment ? (
-										<span
-											className={styles['comment_name']}
-											onClick={() => {
-												setEditingCommentId(dataItem.id);
-												setNewComment((prev) => ({
-													...prev,
-													[dataItem.id]: dataItem.comment,
-												}));
-											}}
-										>
-											<SliceSentence text={dataItem.comment} maxLength={84} suffix="." />
-										</span>
-									) : (
-										<>
-											<input
-												value={newComment[dataItem.id] || ''}
-												onChange={(e) =>
-													setNewComment((prev) => ({
-														...prev,
-														[dataItem.id]: e.target.value,
-													}))
-												}
-												placeholder="Добавить комментарий"
-											/>
-											<button onClick={() => onNewComment(dataItem.id)}>Добавить</button>
-										</>
-									)}
-								</div>
+						{loading ? (
+							<div className={styles['loader']}>
+								<Loader />
 							</div>
-						))}
+						) : (
+							incomesExpenses.map((dataItem) => (
+								<div key={dataItem.id} className={styles['expenses']}>
+									<div
+										className={
+											isType ? styles['expenses__data-red'] : styles['expenses__data-green']
+										}
+									>
+										<span>{dataItem.categories}</span>
+										<span>{dataItem.sum}</span>
+										<span>{dataItem.date}</span>
+										{loadingTrash === dataItem.id ? (
+											<LoaderTrash />
+										) : (
+											<span onClick={() => onRemoveIncomeExpenses(dataItem.id)}>
+												<i className="fa-solid fa-trash"></i>
+											</span>
+										)}
+									</div>
+									<div className={styles['comment']}>
+										{editingCommentId === dataItem.id ? (
+											<>
+												<input
+													value={newComment[dataItem.id] || ''}
+													onChange={(e) =>
+														setNewComment((prev) => ({
+															...prev,
+															[dataItem.id]: e.target.value,
+														}))
+													}
+												/>
+												<button onClick={() => onNewComment(dataItem.id)}>Сохранить</button>
+												<button onClick={() => onRemoveComment(dataItem.id)}>Удалить</button>
+											</>
+										) : dataItem.comment ? (
+											<span
+												className={styles['comment_name']}
+												onClick={() => {
+													setEditingCommentId(dataItem.id);
+													setNewComment((prev) => ({
+														...prev,
+														[dataItem.id]: dataItem.comment,
+													}));
+												}}
+											>
+												<SliceSentence text={dataItem.comment} maxLength={84} suffix="." />
+											</span>
+										) : (
+											<>
+												<input
+													value={newComment[dataItem.id] || ''}
+													onChange={(e) =>
+														setNewComment((prev) => ({
+															...prev,
+															[dataItem.id]: e.target.value,
+														}))
+													}
+													placeholder="Добавить комментарий"
+												/>
+												<button onClick={() => onNewComment(dataItem.id)}>Добавить</button>
+											</>
+										)}
+									</div>
+								</div>
+							))
+						)}
 					</div>
 				</div>
-				<div>
+				<div className={styles['pagination']}>
 					<Pagination setPage={setPage} page={page} totalPages={totalPages} />
 				</div>
 				<div className={styles['button__container']}>
