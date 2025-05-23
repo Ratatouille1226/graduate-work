@@ -8,7 +8,7 @@ import { SliceSentence } from '../../utils';
 import { LIMIT_INCOME_EXPENSES } from '../../constants/limitPaginationExpensesIncome';
 import { Pagination } from '../pagination/Pagination';
 import { Loader } from '../loader/Loader';
-import { LoaderTrash } from './components/loader-trash/LoaderTrash';
+import { LoaderTrash, Modal } from './components';
 
 const validateSchema = yup.object().shape({
 	categories: yup
@@ -59,7 +59,10 @@ export const Transactions = ({ type }) => {
 		const fetchData = async () => {
 			const { data: dataIncomesExpenses, totalCount } = await data.getDataForAccountPagination(query);
 			setTotalPages(Math.ceil(totalCount / LIMIT_INCOME_EXPENSES)); //Проверяем сколько будет страниц (округление вверх)
-			setIncomesExpenses(dataIncomesExpenses);
+			const filteredData = isType
+				? dataIncomesExpenses.filter((item) => item.sum < 0)
+				: dataIncomesExpenses.filter((item) => item.sum >= 0);
+			setIncomesExpenses(filteredData);
 			setLoading(false);
 		};
 		fetchData();
@@ -110,6 +113,7 @@ export const Transactions = ({ type }) => {
 
 	return (
 		<div className={styles['container']}>
+			<Modal />
 			<div className={styles['block']}>
 				<div className={styles['header']}>
 					<span>Категория</span>
@@ -122,6 +126,8 @@ export const Transactions = ({ type }) => {
 							<div className={styles['loader']}>
 								<Loader />
 							</div>
+						) : incomesExpenses.length === 0 ? (
+							<span className={styles['empty__data']}>Данных нет...</span>
 						) : (
 							incomesExpenses.map((dataItem) => (
 								<div key={dataItem.id} className={styles['expenses']}>

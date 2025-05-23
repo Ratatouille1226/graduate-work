@@ -146,3 +146,8 @@
 	margin: 150px 0px 0px 335px;
 	position: absolute;
 }
+
+.empty__data {
+	font-size: 25px;
+	margin: 10px 20px;
+}

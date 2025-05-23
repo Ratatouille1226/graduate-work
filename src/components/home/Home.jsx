@@ -18,7 +18,9 @@ export const Home = () => {
 					<i className="fa-solid fa-credit-card"></i>
 				</Link>
 			</div>
-			<button className={styles['show__analytics']}>Посмотреть аналитику</button>
+			<Link to="/analytics">
+				<button className={styles['show__analytics']}>Посмотреть аналитику</button>
+			</Link>
 		</div>
 	);
 };

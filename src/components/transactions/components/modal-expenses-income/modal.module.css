@@ -1,0 +1,21 @@
+.modal {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.358);
+	margin-top: -95px;
+	z-index: 100;
+}
+
+.choose {
+	text-align: center;
+	color: black;
+	width: 400px;
+	height: 200px;
+	background-color: #efefef;
+	border-radius: 15px;
+	border: 5px solid #FC9300;
+}

@@ -1,5 +1,10 @@
+import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { GetDataFromServer } from '../../api/getDataFromServer';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectAccounts } from '../../selectors';
+import { fetchAccounts, addNewAccounts } from '../../redux-thunk';
+import { deleteAccounts } from '../../redux-thunk/delete-accounts';
+
 import { Loader } from '../loader/Loader';
 import { SliceSentence } from '../../utils';
 
@@ -8,7 +13,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 import styles from './accounts.module.css';
-import { Link } from 'react-router-dom';
 
 const validationSchema = yup.object().shape({
 	accountName: yup
@@ -40,45 +44,32 @@ export const Accounts = () => {
 		resolver: yupResolver(validationSchema),
 	});
 
-	const [accounts, setAccounts] = useState([]); // Тут счета лежат :)
-	const [loading, setLoading] = useState(true); // Загрузка всех счетов
+	const dispatch = useDispatch();
+	const { accounts, loading, addLoadingNewAccounts } = useSelector(selectAccounts);
 	const [isNewAddAccounts, setIsNewAddAccounts] = useState(true); // Условный рендеринг для формы добавления
-	const [addLoading, setAddLoading] = useState(false); // Локальный лоадер для формы
-	const [refreshAccounts, setRefreshAccounts] = useState(false); // Триггер для обновления счетов после добавления
-	const data = GetDataFromServer('accounts');
+	const [refreshAccounts, setRefreshAccounts] = useState(false); // Триггер для обновления счетов после удаления
 	// Получение счетов
 	useEffect(() => {
-		const fetchData = async () => {
-			const dataAccounts = await data.getExpensesIncome();
-			setAccounts(dataAccounts);
-			setLoading(false);
-		};
-		fetchData();
-	}, [refreshAccounts]);
+		dispatch(fetchAccounts());
+	}, [refreshAccounts, dispatch]);
 
 	// Добавление нового счёта
 	const onAddAccounts = async (formData) => {
-		setAddLoading(true); // Показываем лоадер
-
-		await data.addNewAccounts({
-			account: formData.accountName, // 💡 берём имя из формы
-			balance: formData.balance,
-			cashback: formData.cashback,
+		dispatch(
+			addNewAccounts({
+				account: formData.accountName, // 💡 берём данные из формы
+				balance: formData.balance,
+				cashback: formData.cashback,
+			}),
+		).then(() => {
+			setIsNewAddAccounts(true); // Возвращаем блок "Добавить"
+			reset();
 		}); // Ждём завершения добавления
-
-		setRefreshAccounts((prev) => !prev); // Обновляем список счетов
-		setIsNewAddAccounts(true); // Возвращаем блок "Добавить"
-		setAddLoading(false); // Скрываем лоадер
-		reset();
 	};
 	//Удаление счёта
 	const onDeleteAccount = async (id) => {
-		try {
-			await GetDataFromServer().deleteAccounts(id, 'accounts');
-			setRefreshAccounts((prev) => !prev);
-		} catch (error) {
-			console.error('Ошибка удаления задачи:', error);
-		}
+		dispatch(deleteAccounts(id));
+		setRefreshAccounts((prev) => !prev);
 	};
 
 	//Ошибки валидации
@@ -142,7 +133,7 @@ export const Accounts = () => {
 										<i className="fa-regular fa-square-plus"></i>
 									</span>
 								</>
-							) : addLoading ? (
+							) : addLoadingNewAccounts ? (
 								<Loader /> // Показать лоадер только вместо формы
 							) : (
 								<form

@@ -9,26 +9,26 @@
   ],
   "incomesExpenses": [
     {
-      "categories": "ываыва",
+      "categories": "ааа",
       "sum": -123,
-      "date": "21.05.2025",
+      "date": "22.05.2025",
       "comment": "",
-      "id": "SaYrQuD"
+      "id": 1
     },
     {
-      "categories": "ываывпывп",
-      "sum": 123,
-      "date": "21.05.2025",
-      "comment": "прпро",
-      "id": "JjJODib"
+      "categories": "а",
+      "sum": 1,
+      "date": "22.05.2025",
+      "comment": "",
+      "id": 5
     }
   ],
   "accounts": [
     {
-      "id": "ea6a",
-      "account": "Т-Банк",
-      "balance": "1111",
-      "cashback": "1111"
+      "account": "аа",
+      "balance": "1",
+      "cashback": "1",
+      "id": 1
     }
   ]
 }
