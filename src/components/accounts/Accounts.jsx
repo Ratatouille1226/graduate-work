@@ -48,6 +48,7 @@ export const Accounts = () => {
 	const { accounts, loading, addLoadingNewAccounts } = useSelector(selectAccounts);
 	const [isNewAddAccounts, setIsNewAddAccounts] = useState(true); // Условный рендеринг для формы добавления
 	const [refreshAccounts, setRefreshAccounts] = useState(false); // Триггер для обновления счетов после удаления
+
 	// Получение счетов
 	useEffect(() => {
 		dispatch(fetchAccounts());

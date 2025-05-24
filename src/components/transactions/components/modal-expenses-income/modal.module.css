@@ -5,12 +5,16 @@
 	position: absolute;
 	height: 100%;
 	width: 100%;
-	background-color: rgba(0, 0, 0, 0.358);
+	background-color: rgba(0, 0, 0, 0.562);
 	margin-top: -95px;
 	z-index: 100;
 }
 
 .choose {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 20px;
 	text-align: center;
 	color: black;
 	width: 400px;
@@ -18,4 +22,28 @@
 	background-color: #efefef;
 	border-radius: 15px;
 	border: 5px solid #FC9300;
+	padding: 20px;
+}
+
+.choose select {
+	width: 180px;
+	height: 30px;
+	cursor: pointer;
+}
+
+.choose button{
+	width: 180px;
+	height: 30px;
+	border: none;
+	border-radius: 10px;
+	background-color: #FC9300;
+	color: white;
+	font-size: 17px;
+	cursor: pointer;
+	transition: .7s ease all;
+}
+
+.choose button:hover{
+	transition: .7s ease all;
+	background-color: #fca800;
 }

@@ -9,26 +9,58 @@
   ],
   "incomesExpenses": [
     {
-      "categories": "ааа",
-      "sum": -123,
-      "date": "22.05.2025",
+      "categories": "Зарплата",
+      "sum": 150000,
+      "date": "24.05.2025",
       "comment": "",
-      "id": 1
+      "accountId": 1,
+      "id": 7
+    },
+    {
+      "categories": "Магазин",
+      "sum": -10000,
+      "date": "24.05.2025",
+      "comment": "Купил продукты",
+      "accountId": 1,
+      "id": 8
+    },
+    {
+      "categories": "Спортзал",
+      "sum": -3500,
+      "date": "24.05.2025",
+      "comment": "",
+      "accountId": 1,
+      "id": 9
+    },
+    {
+      "categories": "Отдых",
+      "sum": -3500,
+      "date": "24.05.2025",
+      "comment": "Ходил на конную прогулку",
+      "accountId": 2,
+      "id": 10
     },
     {
       "categories": "а",
-      "sum": 1,
-      "date": "22.05.2025",
+      "sum": 12,
+      "date": "24.05.2025",
       "comment": "",
-      "id": 5
+      "accountId": 2,
+      "id": 11
     }
   ],
   "accounts": [
     {
-      "account": "аа",
-      "balance": "1",
-      "cashback": "1",
+      "account": "Сбербанк",
+      "balance": 141300,
+      "cashback": "0",
       "id": 1
+    },
+    {
+      "account": "ВТБ",
+      "balance": 1512,
+      "cashback": "126",
+      "id": 2
     }
   ]
 }

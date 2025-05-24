@@ -51,8 +51,11 @@ export const Transactions = ({ type }) => {
 	const [editingCommentId, setEditingCommentId] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [loadingTrash, setLoadingTrash] = useState(null);
-
 	const [totalPages, setTotalPages] = useState(1); //Сколько всего страниц пагинации
+
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [pendingTransaction, setPendingTransaction] = useState(null);
+
 	const data = GetDataFromServer('incomesExpenses');
 
 	useEffect(() => {
@@ -67,15 +70,42 @@ export const Transactions = ({ type }) => {
 		};
 		fetchData();
 	}, [refreshExpenses, isType, page]);
+	console.log(pendingTransaction);
 
 	// Добавление дохода/расхода
 	const onAddExpenses = (formData) => {
-		data.addNewAccounts({
+		setPendingTransaction({
 			categories: formData.categories,
 			sum: isType ? -Math.abs(Number(formData.sum)) : Math.abs(Number(formData.sum)),
 			date: new Date().toLocaleDateString('ru-RU'),
 			comment: formData.comment,
 		});
+		setIsModalOpen(true);
+	};
+
+	const handleModalConfirm = async (accountId) => {
+		if (!pendingTransaction) return;
+
+		// Добавляем новую транзакцию с выбранным счётом
+		await data.addNewAccounts({
+			...pendingTransaction,
+			accountId: Number(accountId),
+		});
+
+		// Получаем текущий баланс счёта
+		const accountResponse = await fetch(`http://localhost:3000/accounts/${accountId}`);
+		const account = await accountResponse.json();
+		const updatedBalance = Number(account.balance) + pendingTransaction.sum;
+
+		// Обновляем баланс счёта
+		await fetch(`http://localhost:3000/accounts/${accountId}`, {
+			method: 'PATCH',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ balance: updatedBalance }),
+		});
+
+		setIsModalOpen(false);
+		setPendingTransaction(null);
 		setRefreshExpenses((prev) => !prev);
 		reset();
 	};
@@ -113,7 +143,7 @@ export const Transactions = ({ type }) => {
 
 	return (
 		<div className={styles['container']}>
-			<Modal />
+			{isModalOpen && <Modal onConfirm={handleModalConfirm} />}
 			<div className={styles['block']}>
 				<div className={styles['header']}>
 					<span>Категория</span>
