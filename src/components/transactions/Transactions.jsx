@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectTransactions } from '../../selectors';
 import { addEditComment, deleteComment, fetchTransactions } from '../../redux-thunk';
 import { addExpensesIncome, setNewComment } from '../../actions';
+import { modalConfirm } from '../../redux-thunk/modal-confirm';
 
 const validateSchema = yup.object().shape({
 	categories: yup
@@ -30,7 +31,7 @@ const validateSchema = yup.object().shape({
 export const Transactions = ({ type }) => {
 	const [page, setPage] = useState(1);
 	const dispatch = useDispatch();
-	const { loading, incomesExpenses, totalPages, pendingTransaction, newComment } = useSelector(selectTransactions);
+	const { loading, incomesExpenses, totalPages, newComment } = useSelector(selectTransactions);
 
 	const {
 		register,
@@ -59,28 +60,9 @@ export const Transactions = ({ type }) => {
 		dispatch(addExpensesIncome(formData, type));
 		setIsModalOpen(true);
 	};
-
+	//Выбор на каком счету будет операция
 	const handleModalConfirm = async (accountId) => {
-		if (!pendingTransaction) return;
-
-		// Добавляем новую транзакцию с выбранным счётом
-		await data.addNewAccounts({
-			...pendingTransaction,
-			accountId: Number(accountId),
-		});
-
-		// Получаем текущий баланс счёта
-		const accountResponse = await fetch(`http://localhost:3000/accounts/${accountId}`);
-		const account = await accountResponse.json();
-		const updatedBalance = Number(account.balance) + pendingTransaction.sum;
-
-		// Обновляем баланс счёта
-		await fetch(`http://localhost:3000/accounts/${accountId}`, {
-			method: 'PATCH',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ balance: updatedBalance }),
-		});
-
+		dispatch(modalConfirm(accountId));
 		setIsModalOpen(false);
 		reset();
 		dispatch(fetchTransactions(type, page)); // Перезагружаем данные и в других методах также

@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
-import { History, Analytics, Accounts, Home, Header, Transactions, AccountPage } from './components/index';
-import { Authorization } from './pages/index';
+import { History, Analytics, Accounts, Home, Header, Transactions, AccountPage } from '../components';
+import { Authorization } from './authorization/Authorization';
 
 export const App = () => {
 	return (

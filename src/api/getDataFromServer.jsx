@@ -67,7 +67,7 @@ export const GetDataFromServer = (dataName) => {
 			),
 
 		// Изменить баланс счёта
-		editSumAccounts: (id, newSum, newCashback) =>
+		editSumAccounts: (id, newSum, newCashback = '') =>
 			fetchData(
 				`${HTTP_LINK}accounts/${id}`,
 				{

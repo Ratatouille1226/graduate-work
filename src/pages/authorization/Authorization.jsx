@@ -1,9 +1,6 @@
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-
-import { server } from '../../bff';
 
 import styles from './auth.module.css';
 
@@ -34,25 +31,14 @@ export const Authorization = () => {
 		},
 		resolver: yupResolver(authFormSchema),
 	});
-	const [serverError, setServerError] = useState();
 
 	//Сообщение ошибки
 	const formError = errors?.login?.message || errors?.password?.message; //Разделил ошибки чтобы не блокировать кнопку в случае ошибки на сервере а не в форме
-	const errorMessage = formError || serverError;
-
-	//Обращаемся к bff, наш локальный сервер)
-	const onSubmit = ({ login, password }) => {
-		server.authorize(login, password).then(({ error, res }) => {
-			if (error) {
-				setServerError(`Ошибка сервера: ${error}`);
-			}
-		});
-	};
 
 	return (
 		<div className={styles['wrapper']}>
 			<div className={styles['registration__block']}>
-				<form onSubmit={handleSubmit(onSubmit)}>
+				<form>
 					<div className={styles['form__block']}>
 						{' '}
 						<input type="text" placeholder="Введите логин" {...register('login')} />
@@ -62,7 +48,7 @@ export const Authorization = () => {
 						<button type="submit" disabled={!!formError}>
 							Войти
 						</button>
-						{errorMessage && <div>{errorMessage}</div>}
+						{formError && <div>{formError}</div>}
 					</div>
 				</form>
 			</div>
