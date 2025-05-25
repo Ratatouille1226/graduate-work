@@ -36,14 +36,14 @@
   "accounts": [
     {
       "account": "Сбербанк",
-      "balance": 141282,
+      "balance": 141283,
       "cashback": "0",
       "id": 1
     },
     {
       "account": "ВТБ",
-      "balance": "1475",
-      "cashback": "247",
+      "balance": 1477,
+      "cashback": "237",
       "id": 2
     }
   ]
