@@ -31,35 +31,19 @@
       "comment": "",
       "accountId": 1,
       "id": 9
-    },
-    {
-      "categories": "Отдых",
-      "sum": -3500,
-      "date": "24.05.2025",
-      "comment": "Ходил на конную прогулку",
-      "accountId": 2,
-      "id": 10
-    },
-    {
-      "categories": "а",
-      "sum": 12,
-      "date": "24.05.2025",
-      "comment": "",
-      "accountId": 2,
-      "id": 11
     }
   ],
   "accounts": [
     {
       "account": "Сбербанк",
-      "balance": 141300,
+      "balance": 141282,
       "cashback": "0",
       "id": 1
     },
     {
       "account": "ВТБ",
-      "balance": 1512,
-      "cashback": "126",
+      "balance": "1475",
+      "cashback": "247",
       "id": 2
     }
   ]

@@ -5,10 +5,13 @@ import styles from './transactions.module.css';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { SliceSentence } from '../../utils';
-import { LIMIT_INCOME_EXPENSES } from '../../constants/limitPaginationExpensesIncome';
 import { Pagination } from '../pagination/Pagination';
 import { Loader } from '../loader/Loader';
 import { LoaderTrash, Modal } from './components';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectTransactions } from '../../selectors';
+import { addEditComment, deleteComment, fetchTransactions } from '../../redux-thunk';
+import { addExpensesIncome, setNewComment } from '../../actions';
 
 const validateSchema = yup.object().shape({
 	categories: yup
@@ -23,15 +26,11 @@ const validateSchema = yup.object().shape({
 	comment: yup.string(),
 });
 
+//Универсальный компонент, использую его в доходах и расходах, благодаря пропсу type в который передаётся income и expenses
 export const Transactions = ({ type }) => {
 	const [page, setPage] = useState(1);
-	//Проверяем что у нас на странице, расход или доход, получается что можно использовать этот компонент 2 раза
-	const isType = type === 'expenses';
-	//А тут фильтрум данные для пагинации, чтобы показывать по 5 элементов, без фильтра на стороне сервера данные отрисовываются неправильно
-	//Показывает например: 3 дохода и 2 расхода
-	const query = isType
-		? `?sum_lt=0&_page=${page}&_limit=${LIMIT_INCOME_EXPENSES}`
-		: `?sum_gte=0&_page=${page}&_limit=${LIMIT_INCOME_EXPENSES}`;
+	const dispatch = useDispatch();
+	const { loading, incomesExpenses, totalPages, pendingTransaction, newComment } = useSelector(selectTransactions);
 
 	const {
 		register,
@@ -45,41 +44,19 @@ export const Transactions = ({ type }) => {
 		resolver: yupResolver(validateSchema),
 	});
 
-	const [incomesExpenses, setIncomesExpenses] = useState([]);
-	const [refreshExpenses, setRefreshExpenses] = useState(false);
-	const [newComment, setNewComment] = useState({});
 	const [editingCommentId, setEditingCommentId] = useState(null);
-	const [loading, setLoading] = useState(true);
 	const [loadingTrash, setLoadingTrash] = useState(null);
-	const [totalPages, setTotalPages] = useState(1); //Сколько всего страниц пагинации
-
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [pendingTransaction, setPendingTransaction] = useState(null);
 
 	const data = GetDataFromServer('incomesExpenses');
 
 	useEffect(() => {
-		const fetchData = async () => {
-			const { data: dataIncomesExpenses, totalCount } = await data.getDataForAccountPagination(query);
-			setTotalPages(Math.ceil(totalCount / LIMIT_INCOME_EXPENSES)); //Проверяем сколько будет страниц (округление вверх)
-			const filteredData = isType
-				? dataIncomesExpenses.filter((item) => item.sum < 0)
-				: dataIncomesExpenses.filter((item) => item.sum >= 0);
-			setIncomesExpenses(filteredData);
-			setLoading(false);
-		};
-		fetchData();
-	}, [refreshExpenses, isType, page]);
-	console.log(pendingTransaction);
+		dispatch(fetchTransactions(type, page));
+	}, [page, dispatch, type]);
 
 	// Добавление дохода/расхода
-	const onAddExpenses = (formData) => {
-		setPendingTransaction({
-			categories: formData.categories,
-			sum: isType ? -Math.abs(Number(formData.sum)) : Math.abs(Number(formData.sum)),
-			date: new Date().toLocaleDateString('ru-RU'),
-			comment: formData.comment,
-		});
+	const onAddExpensesIncome = (formData) => {
+		dispatch(addExpensesIncome(formData, type));
 		setIsModalOpen(true);
 	};
 
@@ -105,37 +82,28 @@ export const Transactions = ({ type }) => {
 		});
 
 		setIsModalOpen(false);
-		setPendingTransaction(null);
-		setRefreshExpenses((prev) => !prev);
 		reset();
+		dispatch(fetchTransactions(type, page)); // Перезагружаем данные и в других методах также
 	};
 
 	// Добавление или редактирование комментария
 	const onNewComment = async (id) => {
-		const comment = newComment[id];
-		if (!comment.trim()) return;
-
-		await data.editAddComments(id, comment);
+		dispatch(addEditComment(id, newComment));
 		setEditingCommentId(null);
-		setRefreshExpenses((prev) => !prev);
+		dispatch(fetchTransactions(type, page));
 	};
 	//Удаление расходов/доходов
 	const onRemoveIncomeExpenses = async (id) => {
 		setLoadingTrash(id);
 		await data.deleteAccounts(id, 'incomesExpenses');
-		setRefreshExpenses((prev) => !prev);
 		setLoadingTrash(null);
+		dispatch(fetchTransactions(type, page));
 	};
 	//Удаление комментария
 	const onRemoveComment = async (id) => {
-		await data.editAddComments(id, '');
 		setEditingCommentId(null);
-		setNewComment((prev) => {
-			const updated = { ...prev };
-			delete updated[id];
-			return updated;
-		});
-		setRefreshExpenses((prev) => !prev);
+		dispatch(deleteComment(id));
+		dispatch(fetchTransactions(type, page));
 	};
 
 	const errorCategories = errors?.categories?.message;
@@ -163,7 +131,9 @@ export const Transactions = ({ type }) => {
 								<div key={dataItem.id} className={styles['expenses']}>
 									<div
 										className={
-											isType ? styles['expenses__data-red'] : styles['expenses__data-green']
+											type === 'expenses'
+												? styles['expenses__data-red']
+												: styles['expenses__data-green']
 										}
 									>
 										<span>{dataItem.categories}</span>
@@ -183,10 +153,7 @@ export const Transactions = ({ type }) => {
 												<input
 													value={newComment[dataItem.id] || ''}
 													onChange={(e) =>
-														setNewComment((prev) => ({
-															...prev,
-															[dataItem.id]: e.target.value,
-														}))
+														dispatch(setNewComment(dataItem.id, e.target.value))
 													}
 												/>
 												<button onClick={() => onNewComment(dataItem.id)}>Сохранить</button>
@@ -197,10 +164,7 @@ export const Transactions = ({ type }) => {
 												className={styles['comment_name']}
 												onClick={() => {
 													setEditingCommentId(dataItem.id);
-													setNewComment((prev) => ({
-														...prev,
-														[dataItem.id]: dataItem.comment,
-													}));
+													dispatch(setNewComment(dataItem.id, dataItem.comment || ''));
 												}}
 											>
 												<SliceSentence text={dataItem.comment} maxLength={84} suffix="." />
@@ -210,10 +174,7 @@ export const Transactions = ({ type }) => {
 												<input
 													value={newComment[dataItem.id] || ''}
 													onChange={(e) =>
-														setNewComment((prev) => ({
-															...prev,
-															[dataItem.id]: e.target.value,
-														}))
+														dispatch(setNewComment(dataItem.id, e.target.value))
 													}
 													placeholder="Добавить комментарий"
 												/>
@@ -230,7 +191,7 @@ export const Transactions = ({ type }) => {
 					<Pagination setPage={setPage} page={page} totalPages={totalPages} />
 				</div>
 				<div className={styles['button__container']}>
-					<form onClick={(e) => e.stopPropagation()} onSubmit={handleSubmit(onAddExpenses)}>
+					<form onClick={(e) => e.stopPropagation()} onSubmit={handleSubmit(onAddExpensesIncome)}>
 						<input {...register('categories')} type="text" placeholder="Название категории" />
 						{errorCategories && <span className={styles['errorCat']}>{errorCategories}</span>}
 						<input {...register('sum')} type="text" placeholder="Сумма" />
