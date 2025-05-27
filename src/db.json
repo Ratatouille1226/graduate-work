@@ -31,6 +31,14 @@
       "comment": "",
       "accountId": 1,
       "id": 9
+    },
+    {
+      "categories": "Фриланс",
+      "sum": 17500,
+      "date": "27.05.2025",
+      "comment": "Сделал заказ на фрилансе",
+      "accountId": 2,
+      "id": 10
     }
   ],
   "accounts": [
@@ -42,8 +50,8 @@
     },
     {
       "account": "ВТБ",
-      "balance": 1545,
-      "cashback": "",
+      "balance": "17046",
+      "cashback": "125",
       "id": 2
     }
   ]

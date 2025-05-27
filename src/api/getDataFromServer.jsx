@@ -80,5 +80,8 @@ export const GetDataFromServer = (dataName) => {
 
 		// Получить данные по счёту
 		getDataAccount: (id) => fetchData(`${HTTP_LINK}accounts/${id}`, {}, 'Ошибка при получении счёта'),
+
+		//Получение расходов и доходов без фильтрации для компонента аналитики
+		getAllTransactions: () => fetchData(`${HTTP_LINK}${dataName}`, {}, 'Ошибка при получении транзакций'),
 	};
 };
