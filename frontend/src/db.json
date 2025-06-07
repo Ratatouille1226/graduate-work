@@ -9,14 +9,6 @@
   ],
   "incomesExpenses": [
     {
-      "categories": "Зарплата",
-      "sum": 150000,
-      "date": "24.05.2025",
-      "comment": "",
-      "accountId": 1,
-      "id": 7
-    },
-    {
       "categories": "Магазин",
       "sum": -10000,
       "date": "24.05.2025",
@@ -39,19 +31,43 @@
       "comment": "Сделал заказ на фрилансе",
       "accountId": 2,
       "id": 10
+    },
+    {
+      "categories": "а",
+      "sum": -12,
+      "date": "04.06.2025",
+      "comment": "12",
+      "accountId": 1,
+      "id": 12
+    },
+    {
+      "categories": "а",
+      "sum": -12,
+      "date": "07.06.2025",
+      "comment": "",
+      "accountId": 1,
+      "id": 17
+    },
+    {
+      "categories": "а",
+      "sum": -1,
+      "date": "07.06.2025",
+      "comment": "",
+      "accountId": 2,
+      "id": 18
     }
   ],
   "accounts": [
     {
       "account": "Сбербанк",
-      "balance": 141283,
-      "cashback": "0",
+      "balance": 141356,
+      "cashback": "",
       "id": 1
     },
     {
       "account": "ВТБ",
-      "balance": "17046",
-      "cashback": "125",
+      "balance": "12345",
+      "cashback": "213",
       "id": 2
     }
   ]
