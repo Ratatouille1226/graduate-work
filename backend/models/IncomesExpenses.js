@@ -7,4 +7,8 @@ const incomesExpensesSchema = new mongoose.Schema({
   comment: { type: String, default: "" },
 });
 
-module.exports = mongoose.model("IncomesExpenses", incomesExpensesSchema);
+module.exports = mongoose.model(
+  "IncomesExpenses",
+  incomesExpensesSchema,
+  "incomesExpenses"
+); //Передаю в 3 агументе название пути, потому что монго приводит всё к нижнему регистру

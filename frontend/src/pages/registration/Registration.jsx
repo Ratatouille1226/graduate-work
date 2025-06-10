@@ -3,6 +3,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import styles from './auth.module.css';
+import { Link } from 'react-router-dom';
 
 const authFormSchema = yup.object().shape({
 	login: yup
@@ -19,7 +20,7 @@ const authFormSchema = yup.object().shape({
 		.max(20, 'Пароль должен содержать максимум 20 символов.'),
 });
 
-export const Authorization = () => {
+export const Registration = () => {
 	const {
 		register,
 		handleSubmit,
@@ -38,17 +39,16 @@ export const Authorization = () => {
 	return (
 		<div className={styles['wrapper']}>
 			<div className={styles['registration__block']}>
-				<form>
+				<form onSubmit={handleSubmit()}>
 					<div className={styles['form__block']}>
-						{' '}
+						<h2>Регистрация</h2>
 						<input type="text" placeholder="Введите логин" {...register('login')} />
 						<input type="password" placeholder="Введите пароль" {...register('password')} />
-						<span>Нет аккаунта?</span>
-						<span>Зарегистрироваться</span>
 						<button type="submit" disabled={!!formError}>
-							Войти
+							Зарегистрироваться
 						</button>
-						{formError && <div>{formError}</div>}
+						<Link to="/login">Назад</Link>
+						{formError && <div className={styles['error']}>{formError}</div>}
 					</div>
 				</form>
 			</div>

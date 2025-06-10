@@ -1,14 +1,16 @@
 import { Routes, Route } from 'react-router-dom';
 import { History, Analytics, Accounts, Home, Header, Transactions, AccountPage } from '../components';
-import { Authorization } from './authorization/Authorization';
+import { Registration } from './registration/Registration';
 import { NotFound } from './notFound/NotFound';
+import { Login } from './login/Login';
 
 export const App = () => {
 	return (
 		<div>
 			<Header />
 			<Routes>
-				<Route path="/authorization" element={<Authorization />} />
+				<Route path="/login" element={<Login />} />
+				<Route path="/registration" element={<Registration />} />
 				<Route path="/" element={<Home />} />
 				<Route path="/history" element={<History />} />
 				<Route path="/incomes" element={<Transactions type="incomes" />} />

@@ -9,9 +9,11 @@ app.use(express.json());
 
 const accountsRouter = require("./api/getAccounts"); //Счета
 const incomesExpensesRouter = require("./api/getIncomesExpenses"); //Расходы доходы
+const authRouter = require("./api/loginAndAuthorization"); //Регистрация/авторизация
 
 app.use("/accounts", accountsRouter);
 app.use("/incomesExpenses", incomesExpensesRouter);
+app.use("/auth", authRouter);
 
 app.get("/", (req, res) => {
   res.send("Сервер работает");
