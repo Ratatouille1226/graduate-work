@@ -10,9 +10,9 @@ export const Header = () => {
 			<div className={styles['logo__buttons']}>
 				<img src={logo} alt="logo" />
 				<Link
-					to="/"
+					to="/home"
 					className={
-						location.pathname === '/'
+						location.pathname === '/home'
 							? `${styles['button__navigate']} ${styles['active']}`
 							: `${styles['button__navigate']}`
 					}
@@ -32,6 +32,9 @@ export const Header = () => {
 			</div>
 			<div className={styles['user']}>
 				<h2>Andrey</h2>
+				<span>
+					<i class="fa-solid fa-arrow-right-from-bracket"></i>
+				</span>
 			</div>
 		</header>
 	);

@@ -39,22 +39,6 @@
       "comment": "12",
       "accountId": 1,
       "id": 12
-    },
-    {
-      "categories": "а",
-      "sum": -12,
-      "date": "07.06.2025",
-      "comment": "",
-      "accountId": 1,
-      "id": 17
-    },
-    {
-      "categories": "а",
-      "sum": -1,
-      "date": "07.06.2025",
-      "comment": "",
-      "accountId": 2,
-      "id": 18
     }
   ],
   "accounts": [

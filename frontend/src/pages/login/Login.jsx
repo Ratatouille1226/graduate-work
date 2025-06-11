@@ -1,9 +1,10 @@
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-
+import { useNavigate } from 'react-router-dom';
 import styles from './login.module.css';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 const authFormSchema = yup.object().shape({
 	login: yup
@@ -32,14 +33,35 @@ export const Login = () => {
 		},
 		resolver: yupResolver(authFormSchema),
 	});
+	const navigate = useNavigate();
 
 	//Сообщение ошибки
 	const formError = errors?.login?.message || errors?.password?.message; //Разделил ошибки чтобы не блокировать кнопку в случае ошибки на сервере а не в форме
+	const [isTrueUserPassword, setIsTrueUserPassword] = useState('');
+
+	const onSubmit = async (data) => {
+		try {
+			const response = await fetch('http://localhost:5000/auth/login', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(data),
+			});
+
+			const result = await response.json();
+			if (!response.ok) throw new Error(result.message || 'Ошибка входа');
+
+			localStorage.setItem('token', result.token);
+			setIsTrueUserPassword('');
+			navigate('/');
+		} catch (e) {
+			setIsTrueUserPassword(`${e.message}`);
+		}
+	};
 
 	return (
 		<div className={styles['wrapper']}>
 			<div className={styles['registration__block']}>
-				<form onSubmit={handleSubmit()}>
+				<form onSubmit={handleSubmit(onSubmit)}>
 					<div className={styles['form__block']}>
 						<h2>Войдите в аккаунт</h2>{' '}
 						<input type="text" placeholder="Введите логин" {...register('login')} />
@@ -50,6 +72,7 @@ export const Login = () => {
 							Войти
 						</button>
 						{formError && <div className={styles['error']}>{formError}</div>}
+						{isTrueUserPassword && <div className={styles['error']}>{isTrueUserPassword}</div>}
 					</div>
 				</form>
 			</div>

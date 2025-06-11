@@ -6,3 +6,4 @@ export * from './header/Header';
 export * from './transactions/Transactions';
 export * from './account-page/AccountPage';
 export * from './pagination/Pagination';
+export * from './protected-route/ProtectedRoute';
