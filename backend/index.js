@@ -7,19 +7,13 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const accountsRouter = require("./api/getAccounts"); //Счета
-const incomesExpensesRouter = require("./api/getIncomesExpenses"); //Расходы доходы
-const authRouter = require("./api/loginAndAuthorization"); //Регистрация/авторизация
-const deleteIncomesExpenses = require("./api/deleteIncomesExpenses"); //Удаление транзакций
-const addNewTransaction = require("./api/addIncomesExpenses"); //Добавление транзакции
-const editDeleteComments = require("./api/editDeleteComment"); //Изменение удаление комментариев
+const controllerAccounts = require("./controllers/controller-accounts"); //Счета
+const authRouter = require("./controllers/loginAndAuthorization"); //Регистрация/авторизация
+const controllerIncomesExpenses = require("./controllers/controller-incomesExpenses"); //Операции транзакций
 
-app.use("/accounts", accountsRouter);
-app.use("/incomesExpenses", incomesExpensesRouter);
+app.use("/accounts", controllerAccounts);
 app.use("/auth", authRouter);
-app.use("/incomesExpenses", deleteIncomesExpenses);
-app.use("/incomesExpenses", addNewTransaction);
-app.use("/incomesExpenses", editDeleteComments);
+app.use("/incomesExpenses", controllerIncomesExpenses);
 
 app.get("/", (req, res) => {
   res.send("Сервер работает");
