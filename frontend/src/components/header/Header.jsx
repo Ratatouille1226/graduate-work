@@ -1,9 +1,31 @@
 import styles from './header.module.css';
 import logo from '../../assets/logo.png';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 export const Header = () => {
 	const location = useLocation(); //для того чтобы отображать класс активности только когда мы находимся на этой странице
+	const navigate = useNavigate();
+	const [username, setUsername] = useState('');
+
+	useEffect(() => {
+		const token = localStorage.getItem('token');
+		if (token) {
+			try {
+				const payload = token.split('.')[1];
+				const decoded = JSON.parse(atob(payload));
+				setUsername(decoded.login); // поле login в JWT
+			} catch (e) {
+				console.error('Ошибка при расшифровке токена:', e);
+			}
+		}
+	}, []);
+
+	const logout = () => {
+		localStorage.removeItem('token');
+		navigate('/login');
+	};
 
 	return (
 		<header className={styles['header']}>
@@ -31,9 +53,9 @@ export const Header = () => {
 				</Link>
 			</div>
 			<div className={styles['user']}>
-				<h2>Andrey</h2>
+				<h2>{username}</h2>
 				<span>
-					<i class="fa-solid fa-arrow-right-from-bracket"></i>
+					<i onClick={logout} className="fa-solid fa-arrow-right-from-bracket"></i>
 				</span>
 			</div>
 		</header>

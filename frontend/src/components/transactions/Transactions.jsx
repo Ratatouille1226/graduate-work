@@ -69,22 +69,22 @@ export const Transactions = ({ type }) => {
 	};
 
 	// Добавление или редактирование комментария
-	const onNewComment = async (id) => {
-		dispatch(addEditComment(id, newComment));
+	const onNewComment = async (_id) => {
+		dispatch(addEditComment(_id, newComment));
 		setEditingCommentId(null);
 		dispatch(fetchTransactions(type, page));
 	};
 	//Удаление расходов/доходов
-	const onRemoveIncomeExpenses = async (id) => {
-		setLoadingTrash(id);
-		await data.deleteAccounts(id, 'incomesExpenses');
+	const onRemoveIncomeExpenses = async (_id) => {
+		setLoadingTrash(_id);
+		await data.deleteAccounts(_id, 'incomesExpenses');
 		setLoadingTrash(null);
 		dispatch(fetchTransactions(type, page));
 	};
 	//Удаление комментария
-	const onRemoveComment = async (id) => {
+	const onRemoveComment = async (_id) => {
 		setEditingCommentId(null);
-		dispatch(deleteComment(id));
+		dispatch(deleteComment(_id));
 		dispatch(fetchTransactions(type, page));
 	};
 
@@ -110,7 +110,7 @@ export const Transactions = ({ type }) => {
 							<span className={styles['empty__data']}>Данных нет...</span>
 						) : (
 							incomesExpenses.map((dataItem) => (
-								<div key={dataItem.id} className={styles['expenses']}>
+								<div key={dataItem._id} className={styles['expenses']}>
 									<div
 										className={
 											type === 'expenses'
@@ -121,32 +121,32 @@ export const Transactions = ({ type }) => {
 										<span>{dataItem.categories}</span>
 										<span>{dataItem.sum}</span>
 										<span>{dataItem.date}</span>
-										{loadingTrash === dataItem.id ? (
+										{loadingTrash === dataItem._id ? (
 											<LoaderTrash />
 										) : (
-											<span onClick={() => onRemoveIncomeExpenses(dataItem.id)}>
+											<span onClick={() => onRemoveIncomeExpenses(dataItem._id)}>
 												<i className="fa-solid fa-trash"></i>
 											</span>
 										)}
 									</div>
 									<div className={styles['comment']}>
-										{editingCommentId === dataItem.id ? (
+										{editingCommentId === dataItem._id ? (
 											<>
 												<input
-													value={newComment[dataItem.id] || ''}
+													value={newComment[dataItem._id] || ''}
 													onChange={(e) =>
-														dispatch(setNewComment(dataItem.id, e.target.value))
+														dispatch(setNewComment(dataItem._id, e.target.value))
 													}
 												/>
-												<button onClick={() => onNewComment(dataItem.id)}>Сохранить</button>
-												<button onClick={() => onRemoveComment(dataItem.id)}>Удалить</button>
+												<button onClick={() => onNewComment(dataItem._id)}>Сохранить</button>
+												<button onClick={() => onRemoveComment(dataItem._id)}>Удалить</button>
 											</>
 										) : dataItem.comment ? (
 											<span
 												className={styles['comment_name']}
 												onClick={() => {
-													setEditingCommentId(dataItem.id);
-													dispatch(setNewComment(dataItem.id, dataItem.comment || ''));
+													setEditingCommentId(dataItem._id);
+													dispatch(setNewComment(dataItem._id, dataItem.comment || ''));
 												}}
 											>
 												<SliceSentence text={dataItem.comment} maxLength={84} suffix="." />
@@ -154,13 +154,13 @@ export const Transactions = ({ type }) => {
 										) : (
 											<>
 												<input
-													value={newComment[dataItem.id] || ''}
+													value={newComment[dataItem._id] || ''}
 													onChange={(e) =>
-														dispatch(setNewComment(dataItem.id, e.target.value))
+														dispatch(setNewComment(dataItem._id, e.target.value))
 													}
 													placeholder="Добавить комментарий"
 												/>
-												<button onClick={() => onNewComment(dataItem.id)}>Добавить</button>
+												<button onClick={() => onNewComment(dataItem._id)}>Добавить</button>
 											</>
 										)}
 									</div>

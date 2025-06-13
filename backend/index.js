@@ -10,10 +10,16 @@ app.use(express.json());
 const accountsRouter = require("./api/getAccounts"); //Счета
 const incomesExpensesRouter = require("./api/getIncomesExpenses"); //Расходы доходы
 const authRouter = require("./api/loginAndAuthorization"); //Регистрация/авторизация
+const deleteIncomesExpenses = require("./api/deleteIncomesExpenses"); //Удаление транзакций
+const addNewTransaction = require("./api/addIncomesExpenses"); //Добавление транзакции
+const editDeleteComments = require("./api/editDeleteComment"); //Изменение удаление комментариев
 
 app.use("/accounts", accountsRouter);
 app.use("/incomesExpenses", incomesExpensesRouter);
 app.use("/auth", authRouter);
+app.use("/incomesExpenses", deleteIncomesExpenses);
+app.use("/incomesExpenses", addNewTransaction);
+app.use("/incomesExpenses", editDeleteComments);
 
 app.get("/", (req, res) => {
   res.send("Сервер работает");

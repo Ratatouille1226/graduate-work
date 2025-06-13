@@ -52,7 +52,7 @@ export const Login = () => {
 
 			localStorage.setItem('token', result.token);
 			setIsTrueUserPassword('');
-			navigate('/');
+			navigate('/home');
 		} catch (e) {
 			setIsTrueUserPassword(`${e.message}`);
 		}

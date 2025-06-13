@@ -68,8 +68,8 @@ export const Accounts = () => {
 		}); // Ждём завершения добавления
 	};
 	//Удаление счёта
-	const onDeleteAccount = async (id) => {
-		dispatch(deleteAccounts(id));
+	const onDeleteAccount = async (_id) => {
+		dispatch(deleteAccounts(_id));
 		setRefreshAccounts((prev) => !prev);
 	};
 
@@ -87,7 +87,7 @@ export const Accounts = () => {
 				) : (
 					<div className={styles['block']}>
 						{accounts.map((item) => (
-							<div key={item.id} className={styles['block__accounts']}>
+							<div key={item._id} className={styles['block__accounts']}>
 								<div className={styles['accounts']}>
 									<h2>
 										<SliceSentence text={item.account} maxLength={10} />
@@ -99,7 +99,7 @@ export const Accounts = () => {
 											prefix={'Счет:'}
 											suffix={'р'}
 										/>
-										<Link to={`/accountPage/${item.id}`}>
+										<Link to={`/accountPage/${item._id}`}>
 											<i className={`fa-solid fa-pen-to-square ${styles['edit']}`}></i>
 										</Link>
 									</span>
@@ -114,7 +114,7 @@ export const Accounts = () => {
 									<span>
 										<i className={`fa-solid fa-piggy-bank ${styles['pig']}`}></i>
 									</span>
-									<button onClick={() => onDeleteAccount(item.id)} className={styles['delete']}>
+									<button onClick={() => onDeleteAccount(item._id)} className={styles['delete']}>
 										Удалить
 									</button>
 								</div>
