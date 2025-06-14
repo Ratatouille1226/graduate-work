@@ -3,25 +3,11 @@ const incomesExpenses = require("../models/IncomesExpenses");
 
 const router = express.Router();
 
-//Получение расходов доходов и пагинация (фильтрация)
+//Получение расходов доходов
 router.get("/", async (req, res) => {
   try {
-    const { sum_gte, sum_lt, _limit = 5, _page = 1 } = req.query;
+    const data = await incomesExpenses.find();
 
-    const filter = {};
-    if (sum_gte !== undefined) filter.sum = { $gte: Number(sum_gte) };
-    if (sum_lt !== undefined) filter.sum = { $lt: Number(sum_lt) };
-
-    const limit = Number(_limit);
-    const page = Number(_page);
-    const skip = (page - 1) * limit;
-
-    const [data, totalCount] = await Promise.all([
-      incomesExpenses.find(filter).skip(skip).limit(limit),
-      incomesExpenses.countDocuments(filter),
-    ]);
-
-    res.set("X-Total-Count", totalCount);
     res.json(data);
   } catch (e) {
     console.error("Ошибка в GET /incomesExpenses:", e);
@@ -37,8 +23,8 @@ router.patch("/:id", async (req, res) => {
 
     const updated = await incomesExpenses.findByIdAndUpdate(
       id,
-      { comment }
-      //   { new: true }
+      { comment },
+      { new: true }
     );
     if (!updated)
       return res.status(404).json({ message: "Транзакция не найдена" });
@@ -57,8 +43,8 @@ router.delete("/comment/:id", async (req, res) => {
   try {
     const updated = await incomesExpenses.findByIdAndUpdate(
       id,
-      { comment: "" }
-      //   { new: true }
+      { comment: "" },
+      { new: true }
     );
     if (!updated)
       return res.status(404).json({ message: "Транзакция не найдена" });
@@ -85,12 +71,13 @@ router.delete("/:id", async (req, res) => {
 //Добавление транзакции
 router.post("/", async (req, res) => {
   try {
-    const { categories, sum, date, comment } = req.body;
+    const { categories, sum, date, comment, type } = req.body;
     const newTransaction = new incomesExpenses({
       categories,
       sum,
       date: date ? new Date(date) : new Date(),
       comment,
+      type,
     });
     const savedTransaction = await newTransaction.save();
     res.status(201).json(savedTransaction);

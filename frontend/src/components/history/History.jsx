@@ -1,29 +1,39 @@
-import { GetDataFromServer } from '../../api/getDataFromServer';
 import { useState, useEffect } from 'react';
 import { Loader } from '../loader/Loader';
 import styles from './history.module.css';
-import { Pagination } from '../pagination/Pagination';
-import { LIMIT_ACCOUNTS } from '../../constants';
 
 export const History = () => {
-	const [expensesIncome, setExpensesIncome] = useState([]);
-	const [page, setPage] = useState(1); //Страница пагинации
-	const [loading, setLoading] = useState(true);
-	const [totalPages, setTotalPages] = useState(1); //Сколько всего страниц пагинации
-	//Получение расходов и доходов
-	useEffect(() => {
-		const fetchData = async () => {
-			const data = GetDataFromServer('incomesExpenses'); //Передаю аргумент чтобы использовать запрос для любых компонентов
+	const [transactions, setTransactions] = useState([]);
+	const [loading, setLoading] = useState(false);
+	const [currentPage, setCurrentPage] = useState(1);
+	const [totalPages, setTotalPages] = useState(1);
+	const limit = 11; // Кол-во записей на странице
 
-			const { data: incomeExpensesData, totalCount } = await data.getDataForAccountPagination(
-				`?_page=${page}&_limit=${LIMIT_ACCOUNTS}`,
-			);
-			setTotalPages(Math.ceil(totalCount / LIMIT_ACCOUNTS)); //Проверяем сколько будет страниц (округление вверх)
-			setExpensesIncome(incomeExpensesData);
-			setLoading(false);
-		};
-		fetchData();
-	}, [page]);
+	useEffect(() => {
+		fetchTransactions(currentPage);
+	}, [currentPage]);
+
+	const fetchTransactions = async (page) => {
+		setLoading(true);
+		try {
+			const response = await fetch(`http://localhost:5000/incomesExpenses/paginated?page=${page}&limit=${limit}`);
+			const result = await response.json();
+			setTransactions(result.data);
+			setCurrentPage(result.currentPage);
+			setTotalPages(result.totalPages);
+		} catch (error) {
+			console.error('Ошибка при загрузке транзакций', error);
+		}
+		setLoading(false);
+	};
+
+	const handlePrev = () => {
+		if (currentPage > 1) setCurrentPage((prev) => prev - 1);
+	};
+
+	const handleNext = () => {
+		if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
+	};
 
 	return (
 		<div className={styles['container']}>
@@ -39,7 +49,7 @@ export const History = () => {
 							<Loader />
 						</div>
 					) : (
-						expensesIncome.map((item) => (
+						transactions.map((item) => (
 							<div
 								key={item.id}
 								className={`${styles['block__incomesExpenses']} ${item.sum < 0 ? styles['negative'] : ''}`}
@@ -51,7 +61,18 @@ export const History = () => {
 						))
 					)}
 				</div>
-				<Pagination setPage={setPage} page={page} totalPages={totalPages} />
+				<div className={styles['pagination']}>
+					<button onClick={handlePrev} disabled={currentPage === 1}>
+						Назад
+					</button>
+					<span>
+						{' '}
+						Страница {currentPage} из {totalPages === 0 ? '1' : totalPages}{' '}
+					</span>
+					<button onClick={handleNext} disabled={currentPage === totalPages || currentPage === 1}>
+						Вперёд
+					</button>
+				</div>
 			</div>
 		</div>
 	);

@@ -18,12 +18,20 @@ export const GetDataFromServer = (dataName) => {
 		getExpensesIncome: () => fetchData(`${HTTP_LINK}${dataName}`, {}, 'Ошибка при получении доходов/расходов'),
 
 		// Пагинация
-		getDataForAccountPagination: async (pagination = '') => {
+		getDataForAccountPagination: async ({ page = 1, limit = 11, filter = {} } = {}) => {
 			try {
-				const response = await fetch(`${HTTP_LINK}${dataName}${pagination}`);
+				// Сформировать query строку вручную
+				const queryParams = new URLSearchParams({
+					_page: page,
+					_limit: limit,
+					...(filter.sum_gte !== undefined ? { sum_gte: filter.sum_gte } : {}),
+					...(filter.sum_lt !== undefined ? { sum_lt: filter.sum_lt } : {}),
+				});
+
+				const response = await fetch(`${HTTP_LINK}${dataName}?${queryParams}`);
 				if (!response.ok) throw new Error('Ошибка при получении доходов/расходов');
 
-				const totalCount = +response.headers.get('X-Total-Count');
+				const totalCount = +response.headers.get('X-Total-Count'); // Сервер Mongo возвращает
 				const data = await response.json();
 				return { data, totalCount };
 			} catch (error) {

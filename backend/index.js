@@ -10,10 +10,12 @@ app.use(express.json());
 const controllerAccounts = require("./controllers/controller-accounts"); //Счета
 const authRouter = require("./controllers/loginAndAuthorization"); //Регистрация/авторизация
 const controllerIncomesExpenses = require("./controllers/controller-incomesExpenses"); //Операции транзакций
+const paginationRoute = require("./controllers/pagination-controller");
 
 app.use("/accounts", controllerAccounts);
 app.use("/auth", authRouter);
 app.use("/incomesExpenses", controllerIncomesExpenses);
+app.use("/incomesExpenses", paginationRoute);
 
 app.get("/", (req, res) => {
   res.send("Сервер работает");

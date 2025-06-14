@@ -64,3 +64,18 @@
 .block__incomesExpenses span:last-child {
 	text-align: right;
 }
+
+.pagination {
+	margin: -85px 0px 0px 50px;
+	display: flex;
+	gap: 20px;
+	align-items: center;
+}
+
+.pagination button {
+	width: 80px;
+	height: 25px;
+	border: none;
+	border-radius: 2px;
+	cursor: pointer;
+}

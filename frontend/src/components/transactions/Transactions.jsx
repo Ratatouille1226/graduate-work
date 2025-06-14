@@ -5,7 +5,7 @@ import styles from './transactions.module.css';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { SliceSentence } from '../../utils';
-import { Pagination } from '../pagination/Pagination';
+// import { Pagination } from '../pagination/Pagination';
 import { Loader } from '../loader/Loader';
 import { LoaderTrash, Modal } from './components';
 import { useDispatch, useSelector } from 'react-redux';
@@ -52,7 +52,7 @@ export const Transactions = ({ type }) => {
 	const data = GetDataFromServer('incomesExpenses');
 
 	useEffect(() => {
-		dispatch(fetchTransactions(type, page));
+		dispatch(fetchTransactions(type, page, 4));
 	}, [page, dispatch, type]);
 
 	// Добавление дохода/расхода
@@ -87,6 +87,14 @@ export const Transactions = ({ type }) => {
 		setEditingCommentId(null);
 		dispatch(deleteComment(_id));
 		dispatch(fetchTransactions(type, page));
+	};
+
+	const handlePrev = () => {
+		if (page > 1) setPage((prev) => prev - 1);
+	};
+
+	const handleNext = () => {
+		if (page < totalPages) setPage((prev) => prev + 1);
 	};
 
 	const errorCategories = errors?.categories?.message;
@@ -171,7 +179,16 @@ export const Transactions = ({ type }) => {
 					</div>
 				</div>
 				<div className={styles['pagination']}>
-					<Pagination setPage={setPage} page={page} totalPages={totalPages} />
+					<button onClick={handlePrev} disabled={page === 1}>
+						Назад
+					</button>
+					<span>
+						{' '}
+						Страница {page} из {totalPages}{' '}
+					</span>
+					<button onClick={handleNext} disabled={page === totalPages}>
+						Вперёд
+					</button>
 				</div>
 				<div className={styles['button__container']}>
 					<form onClick={(e) => e.stopPropagation()} onSubmit={handleSubmit(onAddExpensesIncome)}>
