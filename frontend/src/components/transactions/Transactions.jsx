@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectTransactions } from '../../selectors';
 import { addEditComment, deleteComment, fetchTransactions } from '../../redux-thunk';
 import { addExpensesIncome, setNewComment } from '../../actions';
-import { modalConfirm } from '../../redux-thunk/modal-confirm';
+// import { modalConfirm } from '../../redux-thunk/modal-confirm';
 
 const validateSchema = yup.object().shape({
 	categories: yup
@@ -47,7 +47,7 @@ export const Transactions = ({ type }) => {
 
 	const [editingCommentId, setEditingCommentId] = useState(null);
 	const [loadingTrash, setLoadingTrash] = useState(null);
-	const [isModalOpen, setIsModalOpen] = useState(false);
+	// const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const data = GetDataFromServer('incomesExpenses');
 
@@ -57,16 +57,17 @@ export const Transactions = ({ type }) => {
 
 	// Добавление дохода/расхода
 	const onAddExpensesIncome = (formData) => {
-		dispatch(addExpensesIncome(formData, type));
-		setIsModalOpen(true);
+		dispatch(addExpensesIncome(formData, type, page));
+		// setIsModalOpen(true);
+		reset();
 	};
 	//Выбор на каком счету будет операция
-	const handleModalConfirm = async (accountId) => {
-		dispatch(modalConfirm(accountId));
-		setIsModalOpen(false);
-		reset();
-		dispatch(fetchTransactions(type, page)); // Перезагружаем данные и в других методах также
-	};
+	// const handleModalConfirm = async (accountId) => {
+	// 	dispatch(modalConfirm(accountId));
+	// 	setIsModalOpen(false);
+	// 	reset();
+	// 	dispatch(fetchTransactions(type, page)); // Перезагружаем данные и в других методах также
+	// };
 
 	// Добавление или редактирование комментария
 	const onNewComment = async (_id) => {
@@ -93,7 +94,7 @@ export const Transactions = ({ type }) => {
 
 	return (
 		<div className={styles['container']}>
-			{isModalOpen && <Modal onConfirm={handleModalConfirm} />}
+			{/* {isModalOpen && <Modal onConfirm={handleModalConfirm} />} */}
 			<div className={styles['block']}>
 				<div className={styles['header']}>
 					<span>Категория</span>
