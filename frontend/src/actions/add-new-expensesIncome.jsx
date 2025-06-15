@@ -18,6 +18,6 @@ export const addExpensesIncome =
 		const response = await data.addNewAccounts(transaction);
 
 		if (response) {
-			dispatch(fetchTransactions(type, page));
+			dispatch(fetchTransactions(type, page, 5));
 		}
 	};

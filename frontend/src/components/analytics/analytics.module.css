@@ -7,3 +7,8 @@
 	margin: 50px 0px 0px 550px;
 	position: absolute;
 }
+
+.empty_data {
+	text-align: center;
+	margin: 200px 0px 0px -55px;
+}

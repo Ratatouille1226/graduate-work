@@ -26,15 +26,19 @@ export const Analytics = () => {
 	return (
 		<>
 			<h2 className={styles['title']}>Доходы и расходы за всё время</h2>
-			<PieChart className={styles['chart']} width={1500} height={400}>
-				<Pie data={data} dataKey="value" nameKey="name" outerRadius={150} fill="#8884d8" label>
-					{data.map((item, index) => (
-						<Cell key={`cell-${index}`} fill={COLORS[index]} />
-					))}
-				</Pie>
-				<Tooltip />
-				<Legend />
-			</PieChart>
+			{incomesExpenses.length === 0 ? (
+				<h2 className={styles['empty_data']}>Данных нет...</h2>
+			) : (
+				<PieChart className={styles['chart']} width={1500} height={400}>
+					<Pie data={data} dataKey="value" nameKey="name" outerRadius={150} fill="#8884d8" label>
+						{data.map((item, index) => (
+							<Cell key={`cell-${index}`} fill={COLORS[index]} />
+						))}
+					</Pie>
+					<Tooltip />
+					<Legend />
+				</PieChart>
+			)}
 		</>
 	);
 };

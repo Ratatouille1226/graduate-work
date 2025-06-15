@@ -5,29 +5,28 @@ const router = express.Router();
 
 router.get("/paginated", async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || 1; // Текущая страница, по умолчанию 1
-    const limit = parseInt(req.query.limit) || 10; // Кол-во на странице, по умолчанию 10
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const type = req.query.type;
 
-    const skip = (page - 1) * limit;
+    const filter = type ? { type } : {}; // если передан тип — фильтруем
 
-    // Общее количество документов (для подсчёта всего страниц)
-    const total = await incomesExpenses.countDocuments();
-
-    // Получаем данные с пагинацией
-    const transactions = await incomesExpenses
-      .find()
-      .skip(skip)
-      .limit(limit)
-      .sort({ date: -1 }); // сортируем, например, по дате
+    const totalCount = await incomesExpenses.countDocuments(filter);
+    const totalPages = Math.ceil(totalCount / limit);
+    const data = await incomesExpenses
+      .find(filter)
+      .sort({ date: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit);
 
     res.json({
-      data: transactions,
+      data,
+      totalPages,
       currentPage: page,
-      totalPages: Math.ceil(total / limit),
-      totalItems: total,
     });
   } catch (err) {
-    res.status(500).json({ message: "Server error" });
+    console.error("Ошибка при пагинации:", err);
+    res.status(500).json({ error: "Ошибка сервера при пагинации" });
   }
 });
 

@@ -43,36 +43,42 @@ export const History = () => {
 					<span>Категория</span>
 					<span>Сумма</span>
 				</div>
-				<div className={styles['block']}>
-					{loading ? (
-						<div className={styles['loader']}>
-							<Loader />
+				{transactions.length === 0 ? (
+					<h2 className={styles['empty_data']}>Данных нет...</h2>
+				) : (
+					<>
+						<div className={styles['block']}>
+							{loading ? (
+								<div className={styles['loader']}>
+									<Loader />
+								</div>
+							) : (
+								transactions.map((item) => (
+									<div
+										key={item.id}
+										className={`${styles['block__incomesExpenses']} ${item.sum < 0 ? styles['negative'] : ''}`}
+									>
+										<span>{item.sum < 0 ? 'Расход' : 'Доход'}</span>
+										<span>{item.categories}</span>
+										<span>{item.sum}</span>
+									</div>
+								))
+							)}
 						</div>
-					) : (
-						transactions.map((item) => (
-							<div
-								key={item.id}
-								className={`${styles['block__incomesExpenses']} ${item.sum < 0 ? styles['negative'] : ''}`}
-							>
-								<span>{item.sum < 0 ? 'Расход' : 'Доход'}</span>
-								<span>{item.categories}</span>
-								<span>{item.sum}</span>
-							</div>
-						))
-					)}
-				</div>
-				<div className={styles['pagination']}>
-					<button onClick={handlePrev} disabled={currentPage === 1}>
-						Назад
-					</button>
-					<span>
-						{' '}
-						Страница {currentPage} из {totalPages === 0 ? '1' : totalPages}{' '}
-					</span>
-					<button onClick={handleNext} disabled={currentPage === totalPages || currentPage === 1}>
-						Вперёд
-					</button>
-				</div>
+						<div className={styles['pagination']}>
+							<button onClick={handlePrev} disabled={currentPage === 1}>
+								Назад
+							</button>
+							<span>
+								{' '}
+								Страница {currentPage || 1} из {totalPages === 0 ? '1' : totalPages}{' '}
+							</span>
+							<button onClick={handleNext} disabled={currentPage === totalPages || totalPages === 0}>
+								Вперёд
+							</button>
+						</div>
+					</>
+				)}
 			</div>
 		</div>
 	);

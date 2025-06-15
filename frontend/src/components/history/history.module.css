@@ -79,3 +79,8 @@
 	border-radius: 2px;
 	cursor: pointer;
 }
+
+
+.empty_data {
+	margin: 10px;
+}

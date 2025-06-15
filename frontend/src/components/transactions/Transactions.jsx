@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectTransactions } from '../../selectors';
 import { addEditComment, deleteComment, fetchTransactions } from '../../redux-thunk';
 import { addExpensesIncome, setNewComment } from '../../actions';
+import { formatDate } from '../../utils/formatDate';
 // import { modalConfirm } from '../../redux-thunk/modal-confirm';
 
 const validateSchema = yup.object().shape({
@@ -52,7 +53,7 @@ export const Transactions = ({ type }) => {
 	const data = GetDataFromServer('incomesExpenses');
 
 	useEffect(() => {
-		dispatch(fetchTransactions(type, page, 4));
+		dispatch(fetchTransactions(type, page, 5));
 	}, [page, dispatch, type]);
 
 	// Добавление дохода/расхода
@@ -80,7 +81,11 @@ export const Transactions = ({ type }) => {
 		setLoadingTrash(_id);
 		await data.deleteAccounts(_id, 'incomesExpenses');
 		setLoadingTrash(null);
-		dispatch(fetchTransactions(type, page));
+		const response = await dispatch(fetchTransactions(type, page, 5));
+
+		if (response && response.data.length === 0 && page > 1) {
+			setPage(page - 1);
+		}
 	};
 	//Удаление комментария
 	const onRemoveComment = async (_id) => {
@@ -90,11 +95,15 @@ export const Transactions = ({ type }) => {
 	};
 
 	const handlePrev = () => {
-		if (page > 1) setPage((prev) => prev - 1);
+		if (page > 1) {
+			setPage(page - 1);
+		}
 	};
 
 	const handleNext = () => {
-		if (page < totalPages) setPage((prev) => prev + 1);
+		if (page < totalPages) {
+			setPage(page + 1);
+		}
 	};
 
 	const errorCategories = errors?.categories?.message;
@@ -129,7 +138,7 @@ export const Transactions = ({ type }) => {
 									>
 										<span>{dataItem.categories}</span>
 										<span>{dataItem.sum}</span>
-										<span>{dataItem.date}</span>
+										<span className={styles['date']}>{formatDate(dataItem.date)}</span>
 										{loadingTrash === dataItem._id ? (
 											<LoaderTrash />
 										) : (
@@ -184,9 +193,9 @@ export const Transactions = ({ type }) => {
 					</button>
 					<span>
 						{' '}
-						Страница {page} из {totalPages}{' '}
+						Страница {page} из {totalPages === 0 ? '1' : totalPages}{' '}
 					</span>
-					<button onClick={handleNext} disabled={page === totalPages}>
+					<button onClick={handleNext} disabled={page === totalPages || totalPages === 0}>
 						Вперёд
 					</button>
 				</div>
