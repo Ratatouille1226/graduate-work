@@ -1,7 +1,7 @@
 export const fetchTransactions = (type, page, limit) => async (dispatch) => {
 	try {
 		const response = await fetch(
-			`http://localhost:5000/incomesExpenses/paginated?page=${page}&limit=${limit}&type=${type}`,
+			`http://localhost:5000/api/incomesExpenses/paginated?page=${page}&limit=${limit}&type=${type}`,
 		);
 		const result = await response.json();
 		const data = result.data;

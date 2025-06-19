@@ -16,7 +16,9 @@ export const History = () => {
 	const fetchTransactions = async (page) => {
 		setLoading(true);
 		try {
-			const response = await fetch(`http://localhost:5000/incomesExpenses/paginated?page=${page}&limit=${limit}`);
+			const response = await fetch(
+				`http://localhost:5000/api/incomesExpenses/paginated?page=${page}&limit=${limit}`,
+			);
 			const result = await response.json();
 			setTransactions(result.data);
 			setCurrentPage(result.currentPage);

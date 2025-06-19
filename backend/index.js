@@ -2,20 +2,15 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
+const routes = require("./controllers");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-const controllerAccounts = require("./controllers/controller-accounts"); //Счета
-const authRouter = require("./controllers/loginAndAuthorization"); //Регистрация/авторизация
-const controllerIncomesExpenses = require("./controllers/controller-incomesExpenses"); //Операции транзакций
-const paginationRoute = require("./controllers/pagination-controller");
+app.use(express.static("../frontend/dist"));
 
-app.use("/accounts", controllerAccounts);
-app.use("/auth", authRouter);
-app.use("/incomesExpenses", controllerIncomesExpenses);
-app.use("/incomesExpenses", paginationRoute);
+app.use("/api", routes);
 
 app.get("/", (req, res) => {
   res.send("Сервер работает");
