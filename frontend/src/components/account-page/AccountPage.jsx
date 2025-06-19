@@ -1,10 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { GetDataFromServer } from '../../api/getDataFromServer';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { selectAccounts } from '../../selectors';
 import * as yup from 'yup';
 import styles from './accountPage.module.css';
+import { useDispatch, useSelector } from 'react-redux';
 
 const validationSchema = yup.object().shape({
 	sum: yup
@@ -18,9 +20,10 @@ const validationSchema = yup.object().shape({
 });
 
 export const AccountPage = () => {
+	const dispatch = useDispatch();
+	const { accounts } = useSelector(selectAccounts);
 	const { id } = useParams();
 	const navigate = useNavigate();
-	const [account, setAccount] = useState([]);
 	const response = GetDataFromServer();
 
 	const {
@@ -38,7 +41,8 @@ export const AccountPage = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			const data = await response.getDataAccount(id);
-			setAccount(data);
+
+			dispatch({ type: 'SET_ACCOUNTS', payload: data });
 		};
 		fetchData();
 	}, []);
@@ -54,11 +58,11 @@ export const AccountPage = () => {
 
 	return (
 		<div className={styles['wrapper']}>
-			{account && (
+			{accounts && (
 				<>
-					<h1>Страница счёта {account.account}</h1>
-					<h2>На вашем счёте: {account.balance}</h2>
-					<h2>Кэшбека на счету: {account.cashback}</h2>
+					<h1>Страница счёта: {accounts.map((item) => item.account)}</h1>
+					<h2>На вашем счёте: {accounts.map((item) => item.balance)}</h2>
+					<h2>Кэшбека на счету: {accounts.map((item) => item.cashback)}</h2>
 					<form onClick={(e) => e.stopPropagation()} onSubmit={handleSubmit(onEditSum)}>
 						<input type="text" {...register('sum')} placeholder="Изменить баланс" />
 						{errorInputSum && <span>{errorInputSum}</span>}
